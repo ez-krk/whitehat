@@ -1,0 +1,11 @@
+account constraint on protocol account 
+
+A clear description of the vulnerability, including how it was discovered.
+
+Steps to reproduce the vulnerability.
+
+The severity level (e.g., critical, high, medium, low) of the vulnerability.
+
+Any supporting evidence, such as screenshots or logs.
+
+Recommendations for fixing the issue.
