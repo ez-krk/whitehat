@@ -55,4 +55,10 @@ pub mod whitehat {
         ctx.accounts.approve_sol_hack()?;
         ctx.accounts.update_analytics()
     }
+
+    // (ONLY ADMIN) delete a protocol
+    pub fn delete_protocol(ctx: Context<DeleteProtocol>) -> Result<()> {
+        ctx.accounts.delete_protocol()?;
+        ctx.accounts.update_analytics()
+    }
 }
