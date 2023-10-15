@@ -59,7 +59,7 @@ pub fn initialize(
     let program_id: Pubkey = Pubkey::from_str("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd").unwrap();
 
     #[derive(BorshDeserialize, BorshSerialize, Debug)]
-    pub struct Initialize {}
+    pub struct Initialize {};
     let (auth, auth_bump) = Pubkey::find_program_address(&[b"auth"], &program_id);
     let (vault, vault_bump) = Pubkey::find_program_address(&[b"vault"], &program_id);
     let (analytics, analytics_bump) = Pubkey::find_program_address(&[b"analytics"], &program_id);
@@ -69,7 +69,7 @@ pub fn initialize(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new_readonly(auth, false),
             AccountMeta::new_readonly(vault, false),
@@ -118,7 +118,7 @@ pub fn register_protocol(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new(protocol, false),
             AccountMeta::new_readonly(auth, false),
@@ -140,7 +140,7 @@ pub fn report_vulnerability(
     wallet_signer: &dyn Signer,
     rpc_client: &RpcClient,
 ) -> Result<Signature, Box<dyn std::error::Error>> {
-    let program_id: Pubkey = Pubkey::from(parse_pubkey("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd".as_bytes()));
+    let program_id: Pubkey = Pubkey::from_str("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd");
 
     #[derive(BorshDeserialize, BorshSerialize, Debug)]
     pub struct ReportVulnerability {

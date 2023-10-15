@@ -1,0 +1,13 @@
+Account Constraint on Protocol Account
+
+discovered in the account constraint on protocol account, poses a potential security risk.
+This vulnerability was identified during a routine security assessment.
+
+Access the account constraint settings on the protocol account.
+Attempt to modify or bypass the constraint by inputting unauthorized values.
+
+High
+
+No specific screenshots or logs are available at this time.
+
+Immediately restrict access to the account constraint settings to authorized personnel only.
