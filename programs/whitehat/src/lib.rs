@@ -7,7 +7,7 @@ mod state;
 
 use contexts::*;
 
-declare_id!("WHATtP4qZ6GCva5NafqLaTKozQqr9VjL6SXWwCFvvyp");
+declare_id!("HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW");
 
 #[program]
 pub mod whitehat {
