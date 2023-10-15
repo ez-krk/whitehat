@@ -28,6 +28,7 @@ pub struct RegisterProtocol<'info> {
     /// CHECK: This is safe
     pub auth: UncheckedAccount<'info>,
     #[account(
+        mut,
         seeds = [b"vault", protocol.key().as_ref()],
         bump
     )]
@@ -55,19 +56,22 @@ impl<'info> RegisterProtocol<'info> {
         }
 
         // pub owner: Pubkey,
-        // pub sol_vault: Pubkey,
+        // pub encryption: Pubkey,
+        // pub vault: Pubkey,
         // pub name: String,
-        // pub percent: u8,
+        // pub percent: u64,
         // pub paid : u64,
         // pub vulnerabilities: u64,
         // pub hacks: u64,
-        // pub approved: u64,
         // pub created_at: i64,
-        // pub bump: u8,
+        // pub auth_bump: u8,
+        // pub vault_bump: u8,
+        // pub state_bump: u8,
 
         let protocol = &mut self.protocol;
         protocol.owner = self.owner.key();
         protocol.encryption = self.encryption.key();
+        protocol.vault = self.vault.key();
         protocol.name = name;
         protocol.percent = percent;
         protocol.paid = 0;
