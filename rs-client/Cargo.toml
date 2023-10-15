@@ -1,6 +1,6 @@
 
 [package]
-name = "whitehat-client"
+name = "rs-client"
 version = "0.1.0"
 edition = "2021"
 

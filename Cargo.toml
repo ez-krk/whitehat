@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "programs/*",
-    "client",
+    "rs-client",
     # "whitehat-client",
 ]
 resolver = "2"
