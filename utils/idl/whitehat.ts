@@ -72,21 +72,6 @@ export type IDL = {
           name: "encryption";
           isMut: false;
           isSigner: false;
-          pda: {
-            seeds: [
-              {
-                kind: "const";
-                type: "string";
-                value: "vault";
-              },
-              {
-                kind: "account";
-                type: "publicKey";
-                account: "Protocol";
-                path: "protocol";
-              }
-            ];
-          };
         },
         {
           name: "protocol";
@@ -753,6 +738,10 @@ export type IDL = {
             type: "publicKey";
           },
           {
+            name: "reviewed";
+            type: "bool";
+          },
+          {
             name: "id";
             type: "u64";
           },
@@ -763,10 +752,6 @@ export type IDL = {
           {
             name: "message";
             type: "bytes";
-          },
-          {
-            name: "reviewed";
-            type: "bool";
           },
           {
             name: "createdAt";
@@ -826,6 +811,9 @@ export type IDL = {
       msg: "Message empty.";
     }
   ];
+  metadata: {
+    address: "WHATtP4qZ6GCva5NafqLaTKozQqr9VjL6SXWwCFvvyp";
+  };
 };
 
 export const IDL: IDL = {
@@ -902,21 +890,6 @@ export const IDL: IDL = {
           name: "encryption",
           isMut: false,
           isSigner: false,
-          pda: {
-            seeds: [
-              {
-                kind: "const",
-                type: "string",
-                value: "vault",
-              },
-              {
-                kind: "account",
-                type: "publicKey",
-                account: "Protocol",
-                path: "protocol",
-              },
-            ],
-          },
         },
         {
           name: "protocol",
@@ -1583,6 +1556,10 @@ export const IDL: IDL = {
             type: "publicKey",
           },
           {
+            name: "reviewed",
+            type: "bool",
+          },
+          {
             name: "id",
             type: "u64",
           },
@@ -1593,10 +1570,6 @@ export const IDL: IDL = {
           {
             name: "message",
             type: "bytes",
-          },
-          {
-            name: "reviewed",
-            type: "bool",
           },
           {
             name: "createdAt",
@@ -1656,4 +1629,7 @@ export const IDL: IDL = {
       msg: "Message empty.",
     },
   ],
+  metadata: {
+    address: "WHATtP4qZ6GCva5NafqLaTKozQqr9VjL6SXWwCFvvyp",
+  },
 };
