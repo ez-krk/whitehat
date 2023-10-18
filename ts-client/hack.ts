@@ -16,9 +16,12 @@ import {
 } from "@coral-xyz/anchor";
 
 const PROGRAM_ID = "HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW";
-const WHITEHAT_OWNER = "7sydHcmax59DZJ523tFQEakwkJ3vBDWUE64auHy7yn1N";
-const WHITEHAT_VAULT = "Bbs5osLKjrJNQCnH1dX9b8d9SaRqokXAKubCpaQFuNFH";
-const VULNERABILITY = "99REDyZiRizZPj2M5RxXms129A2xz8FquJexw6kayZqQ";
+
+const PROGRAM_OWNER = "HZ7wsomAGjQpg63uuTMFfFGwZfeKo8i76ZREwf4tes87";
+const PROGRAM_VAULT = "9qmtSSM5KdchcAvM6tjfaKG1WvHFo8ub2jdyk33qQK6o";
+const VULNERABILITY = "3B3REVwoSu7R2yWF5AiREYZjKoDPJnzcpc2GUQ1sDd5R";
+
+// defined by the hacker to get paid 
 const PAYOUT = "3MDmFxEzc6PxFpM72H95PhxygK4f3gaSbKkr4R1dP3jz";
 
 const keypair = Keypair.fromSecretKey(new Uint8Array(sender));
@@ -33,21 +36,10 @@ const program = new Program(IDL, PROGRAM_ID as Address, provider);
 
 (async () => {
   try {
-    const amount = new BN(20 * LAMPORTS_PER_SOL);
+    const amount = new BN(1 * LAMPORTS_PER_SOL);
 
     const protocol = PublicKey.findProgramAddressSync(
-      [Buffer.from("protocol"), new PublicKey(WHITEHAT_OWNER).toBuffer()],
-      program.programId
-    )[0];
-
-    const vulnerability = PublicKey.findProgramAddressSync(
-      // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        new BN(1).toArrayLike(Buffer, "le", 8),
-        new BN(980).toArrayLike(Buffer, "le", 8),
-      ],
+      [Buffer.from("protocol"), new PublicKey(PROGRAM_OWNER).toBuffer()],
       program.programId
     )[0];
 
@@ -63,8 +55,8 @@ const program = new Program(IDL, PROGRAM_ID as Address, provider);
         signer: keypair.publicKey,
         payout: new PublicKey(PAYOUT),
         protocol,
-        vault: new PublicKey(WHITEHAT_VAULT),
-        vulnerability,
+        vault: new PublicKey(PROGRAM_VAULT),
+        vulnerability: new PublicKey(VULNERABILITY),
         hack,
         systemProgram: SystemProgram.programId,
       })

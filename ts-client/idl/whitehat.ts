@@ -114,7 +114,7 @@ export type IDL = {
         },
         {
           name: "vault";
-          isMut: false;
+          isMut: true;
           isSigner: false;
           pda: {
             seeds: [
@@ -585,6 +585,141 @@ export type IDL = {
         }
       ];
       args: [];
+    },
+    {
+      name: "deleteProtocol";
+      accounts: [
+        {
+          name: "admin";
+          isMut: true;
+          isSigner: true;
+        },
+        {
+          name: "protocol";
+          isMut: true;
+          isSigner: false;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                type: "string";
+                value: "protocol";
+              },
+              {
+                kind: "account";
+                type: "publicKey";
+                account: "Protocol";
+                path: "protocol.owner";
+              }
+            ];
+          };
+        },
+        {
+          name: "analytics";
+          isMut: true;
+          isSigner: false;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                type: "string";
+                value: "analytics";
+              }
+            ];
+          };
+          relations: ["admin"];
+        },
+        {
+          name: "systemProgram";
+          isMut: false;
+          isSigner: false;
+        }
+      ];
+      args: [];
+    },
+    {
+      name: "deleteVulnerability";
+      accounts: [
+        {
+          name: "admin";
+          isMut: true;
+          isSigner: true;
+        },
+        {
+          name: "protocol";
+          isMut: true;
+          isSigner: false;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                type: "string";
+                value: "protocol";
+              },
+              {
+                kind: "account";
+                type: "publicKey";
+                account: "Protocol";
+                path: "protocol.owner";
+              }
+            ];
+          };
+        },
+        {
+          name: "vulnerability";
+          isMut: true;
+          isSigner: false;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                type: "string";
+                value: "vulnerability";
+              },
+              {
+                kind: "account";
+                type: "publicKey";
+                account: "Protocol";
+                path: "protocol";
+              },
+              {
+                kind: "account";
+                type: "u64";
+                account: "Vulnerability";
+                path: "vulnerability.id";
+              },
+              {
+                kind: "account";
+                type: "u64";
+                account: "Vulnerability";
+                path: "vulnerability.seed";
+              }
+            ];
+          };
+          relations: ["protocol"];
+        },
+        {
+          name: "analytics";
+          isMut: true;
+          isSigner: false;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                type: "string";
+                value: "analytics";
+              }
+            ];
+          };
+          relations: ["admin"];
+        },
+        {
+          name: "systemProgram";
+          isMut: false;
+          isSigner: false;
+        }
+      ];
+      args: [];
     }
   ];
   accounts: [
@@ -812,7 +947,7 @@ export type IDL = {
     }
   ];
   metadata: {
-    address: "WHATtP4qZ6GCva5NafqLaTKozQqr9VjL6SXWwCFvvyp";
+    address: "HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW";
   };
 };
 
@@ -932,7 +1067,7 @@ export const IDL: IDL = {
         },
         {
           name: "vault",
-          isMut: false,
+          isMut: true,
           isSigner: false,
           pda: {
             seeds: [
@@ -1404,6 +1539,141 @@ export const IDL: IDL = {
       ],
       args: [],
     },
+    {
+      name: "deleteProtocol",
+      accounts: [
+        {
+          name: "admin",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "protocol",
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                type: "string",
+                value: "protocol",
+              },
+              {
+                kind: "account",
+                type: "publicKey",
+                account: "Protocol",
+                path: "protocol.owner",
+              },
+            ],
+          },
+        },
+        {
+          name: "analytics",
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                type: "string",
+                value: "analytics",
+              },
+            ],
+          },
+          relations: ["admin"],
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [],
+    },
+    {
+      name: "deleteVulnerability",
+      accounts: [
+        {
+          name: "admin",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "protocol",
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                type: "string",
+                value: "protocol",
+              },
+              {
+                kind: "account",
+                type: "publicKey",
+                account: "Protocol",
+                path: "protocol.owner",
+              },
+            ],
+          },
+        },
+        {
+          name: "vulnerability",
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                type: "string",
+                value: "vulnerability",
+              },
+              {
+                kind: "account",
+                type: "publicKey",
+                account: "Protocol",
+                path: "protocol",
+              },
+              {
+                kind: "account",
+                type: "u64",
+                account: "Vulnerability",
+                path: "vulnerability.id",
+              },
+              {
+                kind: "account",
+                type: "u64",
+                account: "Vulnerability",
+                path: "vulnerability.seed",
+              },
+            ],
+          },
+          relations: ["protocol"],
+        },
+        {
+          name: "analytics",
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                type: "string",
+                value: "analytics",
+              },
+            ],
+          },
+          relations: ["admin"],
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [],
+    },
   ],
   accounts: [
     {
@@ -1630,6 +1900,6 @@ export const IDL: IDL = {
     },
   ],
   metadata: {
-    address: "WHATtP4qZ6GCva5NafqLaTKozQqr9VjL6SXWwCFvvyp",
+    address: "HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW",
   },
 };

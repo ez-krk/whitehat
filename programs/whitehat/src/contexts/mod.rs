@@ -4,6 +4,7 @@ pub mod deposit_sol_hack;
 pub mod initialize;
 pub mod register_protocol;
 pub mod delete_protocol;
+pub mod delete_vulnerability;
 pub mod report_vulnerability;
 
 pub use approve_sol_hack::*;
@@ -12,4 +13,5 @@ pub use deposit_sol_hack::*;
 pub use initialize::*;
 pub use register_protocol::*;
 pub use delete_protocol::*;
+pub use delete_vulnerability::*;
 pub use report_vulnerability::*;

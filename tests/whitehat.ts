@@ -10,15 +10,14 @@ import {
 } from "@solana/web3.js";
 import { Whitehat } from "../target/types/whitehat";
 
-import fs from 'fs';
+import fs from "fs";
 import nacl from "tweetnacl";
 
 const commitment: Commitment = "confirmed";
 
-
 const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);
-}
+};
 
 describe("whitehat", () => {
   // Configure the client to use the local cluster.
@@ -163,7 +162,6 @@ describe("whitehat", () => {
     // const secretKey = new Uint8Array(signer.secretKey).slice(31, 63);
     // console.log(secretKey);
 
-
     // const key = nacl.box.keyPair.fromSecretKey(secretKey);
 
     // const box = nacl.box(
@@ -208,18 +206,22 @@ describe("whitehat", () => {
       .then(confirmTx);
   });
 
-  it('decrypt vulnerability message', async() => {
+  it("decrypt vulnerability message", async () => {
     const protocolPda = await program.account.protocol.fetch(protocol);
 
     const vulnerability = PublicKey.findProgramAddressSync(
-      [Buffer.from("vulnerability"),
-      protocol.toBytes(),
-      protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
-      seed.toArrayLike(Buffer, "le", 8),],
+      [
+        Buffer.from("vulnerability"),
+        protocol.toBytes(),
+        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
+        seed.toArrayLike(Buffer, "le", 8),
+      ],
       program.programId
-    )[0]
+    )[0];
 
-    const vulnerabilityPda = await program.account.vulnerability.fetch(vulnerability);
+    const vulnerabilityPda = await program.account.vulnerability.fetch(
+      vulnerability
+    );
     console.log(vulnerabilityPda.message.toString());
 
     // console.log(owner.publicKey.toBuffer())
@@ -227,7 +229,7 @@ describe("whitehat", () => {
     // const message = nacl.box.open(vulnerabilityPda.message, vulnerabilityPda.seed.toBuffer("le", 24), signer.publicKey.toBuffer(), new Uint8Array(owner.secretKey).slice(31, 63));
 
     // console.log(message);
-  })
+  });
 
   it("approve vulnerability", async () => {
     const protocolPda = await program.account.protocol.fetch(protocol);
@@ -349,6 +351,35 @@ describe("whitehat", () => {
       account.solPaid.toNumber() / LAMPORTS_PER_SOL
     );
     console.log("fees earned : ", account.fees.toNumber() / LAMPORTS_PER_SOL);
+  });
+
+  it("delete vulnerability", async () => {
+    const protocolPda = await program.account.protocol.fetch(protocol);
+    // console.log(protocolPda.vulnerabilities.toNumber());
+
+    const vulnerability = PublicKey.findProgramAddressSync(
+      // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
+      [
+        Buffer.from("vulnerability"),
+        protocol.toBytes(),
+        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
+        seed.toArrayLike(Buffer, "le", 8),
+      ],
+      program.programId
+    )[0];
+
+    await program.methods
+      .deleteVulnerability()
+      .accounts({
+        admin: admin.publicKey,
+        protocol,
+        vulnerability,
+        analytics,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([admin])
+      .rpc()
+      .then(confirmTx);
   });
 
   it("delete protocol", async () => {

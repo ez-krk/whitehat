@@ -61,4 +61,10 @@ pub mod whitehat {
         ctx.accounts.delete_protocol()?;
         ctx.accounts.update_analytics()
     }
+
+    // (ONLY ADMIN) delete a protocol
+    pub fn delete_vulnerability(ctx: Context<DeleteVulnerability>) -> Result<()> {
+        ctx.accounts.delete_vulnerability()?;
+        ctx.accounts.update_analytics()
+    }
 }
