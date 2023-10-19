@@ -10,7 +10,7 @@ whitehat = "HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "/home/dev/.config/solana/id.json"
 
 [scripts]

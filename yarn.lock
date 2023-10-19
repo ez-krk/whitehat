@@ -195,6 +195,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/aes-js@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "@types/aes-js@npm:3.1.3"
+  checksum: 2108fdea55c2e2dbf89908158f359538411fe6d60a8637932a02a602b8649812741ad38285965816a07f25bc8c7325974e93b98300c0ca59fa6f99873cbf6237
+  languageName: node
+  linkType: hard
+
 "@types/bn.js@npm:^5.1.0":
   version: 5.1.2
   resolution: "@types/bn.js@npm:5.1.2"
@@ -217,6 +224,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 4dee3d966fb527b98f0cbbdcf6977c9193fc3204ed539b7522fe5e64dfa45f9017bdda4ffb1f760062262fce7701a0ee1c2f6ce2e50af36c74d4e37052303172
+  languageName: node
+  linkType: hard
+
+"@types/ed2curve@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@types/ed2curve@npm:0.2.3"
+  dependencies:
+    tweetnacl: ^1.0.0
+  checksum: 87bb0f39e8be3cf63741430f362a122fce3bc8701d267a0f89feb09e2d6ab74f366fc92d3b87fa45753bfb78838ed738d6bc805eb8ccbd9eab5d8102412bac76
   languageName: node
   linkType: hard
 
@@ -296,6 +312,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 538ba38af0cc9e5ef983aee196c4b8b4d87c0c94532334fa7e065b2c8a1f85863467bb774231aae91613fcda5e68740c15d97b1967ae3394d20faddddd8af61d
+  languageName: node
+  linkType: hard
+
+"aes-js@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "aes-js@npm:3.1.2"
+  checksum: 062154d50b1e433cc8c3b8ca7879f3a6375d5e79c2a507b2b6c4ec920b4cd851bf2afa7f65c98761a9da89c0ab618cbe6529e8e9a1c71f93290b53128fb8f712
   languageName: node
   linkType: hard
 
@@ -839,6 +862,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ed2curve@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "ed2curve@npm:0.3.0"
+  dependencies:
+    tweetnacl: 1.x.x
+  checksum: 6dfbe2310aa5a47372c9dd2fd920be140c8d52aea5793d716a3e3865d2ceaeaf639a7653e5492dfe3b4910eaf65c09a1d5132580afe2fdca18a75ebb428a52f2
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
@@ -1130,6 +1162,13 @@ __metadata:
   version: 2.0.1
   resolution: "has-unicode@npm:2.0.1"
   checksum: 1eab07a7436512db0be40a710b29b5dc21fa04880b7f63c9980b706683127e3c1b57cb80ea96d47991bdae2dfe479604f6a1ba410106ee1046a41d1bd0814400
+  languageName: node
+  linkType: hard
+
+"hash-wasm@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "hash-wasm@npm:4.10.0"
+  checksum: 66e6d1d0ba64d928af85d8360f75a9407f0245089b77c451a637dbf2e868485c7b0a49eba55e68d91012a1bbae3ae5ca653984b4259979184dfd3ef8b02b6f61
   languageName: node
   linkType: hard
 
@@ -2326,7 +2365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tweetnacl@npm:^1.0.3":
+"tweetnacl@npm:1.x.x, tweetnacl@npm:^1.0.0, tweetnacl@npm:^1.0.3":
   version: 1.0.3
   resolution: "tweetnacl@npm:1.0.3"
   checksum: e4a57cac188f0c53f24c7a33279e223618a2bfb5fea426231991652a13247bea06b081fd745d71291fcae0f4428d29beba1b984b1f1ce6f66b06a6d1ab90645c
@@ -2445,10 +2484,15 @@ __metadata:
   dependencies:
     "@coral-xyz/anchor": ^0.28.0
     "@solana/web3.js": ^1.78.5
+    "@types/aes-js": ^3.1.3
     "@types/bn.js": ^5.1.0
     "@types/chai": ^4.3.0
+    "@types/ed2curve": ^0.2.3
     "@types/mocha": ^9.0.0
+    aes-js: ^3.1.2
     chai: ^4.3.4
+    ed2curve: ^0.3.0
+    hash-wasm: ^4.10.0
     mocha: ^9.0.3
     prettier: ^2.6.2
     ts-mocha: ^10.0.0

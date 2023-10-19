@@ -12,6 +12,7 @@ import { Whitehat } from "../target/types/whitehat";
 
 import fs from "fs";
 import nacl from "tweetnacl";
+import { Ed25519Ecies } from "../ed25519-ecies/src";
 
 const commitment: Commitment = "confirmed";
 
@@ -157,19 +158,10 @@ describe("whitehat", () => {
     });
     console.log(msg);
 
-    // console.log(signer.secretKey);
-
-    // const secretKey = new Uint8Array(signer.secretKey).slice(31, 63);
-    // console.log(secretKey);
-
-    // const key = nacl.box.keyPair.fromSecretKey(secretKey);
-
-    // const box = nacl.box(
-    //   Buffer.from(msg),
-    //   seed.toBuffer("le", 24),
-    //   encryption.publicKey.toBuffer(),
-    //   key.secretKey
-    // );
+    const text = await Ed25519Ecies.encrypt(
+      Buffer.from(msg),
+      encryption.publicKey.toBuffer()
+    );
 
     const protocolPda = await program.account.protocol.fetch(protocol);
 
@@ -190,7 +182,7 @@ describe("whitehat", () => {
 
     await program.methods
       .reportVulnerability(
-        Buffer.from(msg),
+        text,
         new BN(protocolPda.vulnerabilities.toNumber() + 1),
         seed
       )
@@ -219,16 +211,21 @@ describe("whitehat", () => {
       program.programId
     )[0];
 
-    const vulnerabilityPda = await program.account.vulnerability.fetch(
-      vulnerability
+    const [{ account }] = await program.account.vulnerability.all([
+      {
+        memcmp: {
+          offset: 8,
+          bytes: protocol.toString(),
+        },
+      },
+    ]);
+
+    const message = await Ed25519Ecies.decrypt(
+      account.message,
+      encryption.secretKey
     );
-    console.log(vulnerabilityPda.message.toString());
 
-    // console.log(owner.publicKey.toBuffer())
-
-    // const message = nacl.box.open(vulnerabilityPda.message, vulnerabilityPda.seed.toBuffer("le", 24), signer.publicKey.toBuffer(), new Uint8Array(owner.secretKey).slice(31, 63));
-
-    // console.log(message);
+    console.log(message.toString());
   });
 
   it("approve vulnerability", async () => {
