@@ -3,7 +3,6 @@
   "private": true,
   "workspaces": [
     "app",
-    "ts-client",
     "ed25519-ecies"
   ],
   "scripts": {
