@@ -1,4 +1,0 @@
-
-[submodule "ed25519-ecies"]
-	path = ed25519-ecies
-	url = https://github.com/deanmlittle/ed25519-ecies.git
