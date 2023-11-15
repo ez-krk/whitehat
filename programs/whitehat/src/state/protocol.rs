@@ -7,6 +7,7 @@ pub struct Protocol {
     pub owner: Pubkey,
     pub encryption: Pubkey,
     pub vault: Pubkey,
+    pub programs: Vec<Data>,
     pub name: String,
     pub percent: u64,
     pub paid : u64,
@@ -21,9 +22,16 @@ pub struct Protocol {
 impl Protocol {
     pub const LEN: usize = DISCRIMINATOR_LENGTH
         + PUBLIC_KEY_LENGTH * 3 // owner, encryption, vault
+        + VECTOR_LENGTH_PREFIX
         + STRING_LENGTH_PREFIX 
         + MAX_PROTOCOL_LENGTH
         + 8 * 4 // percent, paid, vulnerabilities, hacks
         + TIMESTAMP_LENGTH // created_at
         + BUMP_LENGTH * 3; // bump
+}
+
+#[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize)]
+pub struct Data {
+    pub address: Pubkey,
+    pub added_date: i64,
 }

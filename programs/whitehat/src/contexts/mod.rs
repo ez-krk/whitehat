@@ -6,7 +6,10 @@ pub mod register_protocol;
 pub mod delete_protocol;
 pub mod delete_vulnerability;
 pub mod report_vulnerability;
+pub mod claim_sol;
+pub mod add_program;
 
+pub use add_program::*;
 pub use approve_sol_hack::*;
 pub use approve_vulnerability::*;
 pub use deposit_sol_hack::*;
@@ -15,3 +18,4 @@ pub use register_protocol::*;
 pub use delete_protocol::*;
 pub use delete_vulnerability::*;
 pub use report_vulnerability::*;
+pub use claim_sol::*;

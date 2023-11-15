@@ -44,6 +44,7 @@ impl<'info> Initialize<'info> {
 
         analytics.admin = self.admin.key();
         analytics.protocols = 0;
+        analytics.programs = 0;
         analytics.vulnerabilities = 0;
         analytics.hacks = 0;
         analytics.sol_recovered = 0;

@@ -59,7 +59,8 @@ pub fn initialize(
     let program_id: Pubkey = Pubkey::from_str("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd").unwrap();
 
     #[derive(BorshDeserialize, BorshSerialize, Debug)]
-    pub struct Initialize {};
+    pub struct Initialize {}
+
     let (auth, auth_bump) = Pubkey::find_program_address(&[b"auth"], &program_id);
     let (vault, vault_bump) = Pubkey::find_program_address(&[b"vault"], &program_id);
     let (analytics, analytics_bump) = Pubkey::find_program_address(&[b"analytics"], &program_id);
@@ -94,7 +95,6 @@ pub fn initialize(
 pub fn register_protocol(
     name: String,
     percent: u64,
-
     commitment_config: CommitmentConfig,
     wallet_signer: &dyn Signer,
     rpc_client: &RpcClient,
@@ -140,7 +140,7 @@ pub fn report_vulnerability(
     wallet_signer: &dyn Signer,
     rpc_client: &RpcClient,
 ) -> Result<Signature, Box<dyn std::error::Error>> {
-    let program_id: Pubkey = Pubkey::from_str("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd");
+    let program_id: Pubkey = Pubkey::from(parse_pubkey("WHATz4jFpiMbaz578KCU8188Ni3AT5ktxqqFLn4CTkd".as_bytes()));
 
     #[derive(BorshDeserialize, BorshSerialize, Debug)]
     pub struct ReportVulnerability {
@@ -165,7 +165,7 @@ pub fn report_vulnerability(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new_readonly(Pubkey::from(payout), false),
             AccountMeta::new(protocol, false),
@@ -204,7 +204,7 @@ pub fn approve_vulnerability(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new_readonly(protocol, false),
             AccountMeta::new(vulnerability, false),
@@ -252,7 +252,7 @@ pub fn deposit_sol_hack(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new_readonly(Pubkey::from(payout), false),
             AccountMeta::new(protocol, false),
@@ -267,7 +267,6 @@ pub fn deposit_sol_hack(
 
 pub fn approve_sol_hack(
     payout: &str,
-
     amount: u64,
     commitment_config: CommitmentConfig,
     wallet_signer: &dyn Signer,
@@ -296,7 +295,7 @@ pub fn approve_sol_hack(
 
     let instruction = Instruction::new_with_borsh(
         program_id,
-        &{},
+        &data,
         vec![
             AccountMeta::new_readonly(auth, false),
             AccountMeta::new(vault, false),

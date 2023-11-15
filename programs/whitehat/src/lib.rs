@@ -7,7 +7,7 @@ mod state;
 
 use contexts::*;
 
-declare_id!("HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW");
+declare_id!("HATo3yGickypg7QCZJjZAAMYNicGatoDp6b1WKuYx7vm");
 
 #[program]
 pub mod whitehat {
@@ -26,6 +26,10 @@ pub mod whitehat {
     ) -> Result<()> {
         ctx.accounts.register_protocol(&ctx.bumps, name, percent)?;
         ctx.accounts.update_analytics()
+    }
+
+    pub fn add_program(ctx: Context<AddProgram>) -> Result<()> {
+        ctx.accounts.add_program()
     }
 
     // vulnerability report, text ecies encrypted off-chain for protocol owner pubkey
@@ -48,6 +52,11 @@ pub mod whitehat {
     // deposit from signer to protocol vault anonymously, hacker input payout adress through instruction accounts
     pub fn deposit_sol_hack(ctx: Context<DepositSolHack>, amount: u64) -> Result<()> {
         ctx.accounts.deposit_sol_hack(&ctx.bumps, amount)
+    }
+
+    // (ONLY PROTOCOL OWNER) claim sol in escrow
+    pub fn claim_sol(ctx: Context<ClaimSol>, amount: u64) -> Result<()> {
+        ctx.accounts.claim_sol(amount)
     }
 
     // (ONLY PROTOCOL OWNER) pay the hacker to inputed payout address for % set by protocol

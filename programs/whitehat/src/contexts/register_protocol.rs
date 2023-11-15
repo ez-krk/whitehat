@@ -58,6 +58,7 @@ impl<'info> RegisterProtocol<'info> {
         // pub owner: Pubkey,
         // pub encryption: Pubkey,
         // pub vault: Pubkey,
+        // pub programs: Vec<Data>,
         // pub name: String,
         // pub percent: u64,
         // pub paid : u64,
@@ -72,6 +73,7 @@ impl<'info> RegisterProtocol<'info> {
         protocol.owner = self.owner.key();
         protocol.encryption = self.encryption.key();
         protocol.vault = self.vault.key();
+        protocol.programs = Vec::new();
         protocol.name = name;
         protocol.percent = percent;
         protocol.paid = 0;

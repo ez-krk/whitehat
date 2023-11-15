@@ -1,9 +1,10 @@
 {
-  "name": "whitehat",
+  "name": "@whitehat-xyz/monorepo",
   "private": true,
   "workspaces": [
-    "app/*",
-    "tests/*"
+    "app",
+    "ts-client",
+    "ed25519-ecies"
   ],
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",

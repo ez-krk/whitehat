@@ -225,6 +225,8 @@ describe("whitehat", () => {
       encryption.secretKey
     );
 
+    console.log("encryption secretKey : ", encryption.secretKey);
+
     console.log(message.toString());
   });
 

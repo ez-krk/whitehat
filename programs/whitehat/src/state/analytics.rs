@@ -6,6 +6,7 @@ use crate::constants::*;
 pub struct Analytics {
     pub admin: Pubkey,
     pub protocols: u64,
+    pub programs: u64,
     pub vulnerabilities: u64,
     pub hacks: u64,
     pub sol_recovered: u64,
@@ -20,6 +21,6 @@ pub struct Analytics {
 impl Analytics {
     pub const LEN: usize = DISCRIMINATOR_LENGTH
         + PUBLIC_KEY_LENGTH
-        + 8 * 7 // protocols, vulnerabilities, hacks, sol_recovered, sol_paid, created_at
+        + 8 * 8 // protocols, vulnerabilities, hacks, sol_recovered, sol_paid, created_at
         + BUMP_LENGTH * 3; // bump
 }

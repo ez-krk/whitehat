@@ -1,0 +1,20 @@
+{
+  "name": "@whitehat-xyz/ts-client",
+  "private": true,
+  "version": "1.0.0",
+  "description": "typescript client to interact with our solana programs.",
+  "main": "dist/index.js",
+  "bin": {
+    "ts-client": "./bin/ts-client"
+  },
+  "preferGlobal": true,
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@solana/web3.js": "^1.87.6",
+    "@whitehat-xyz/ed25519-ecies": "workspace:*"
+  }
+}
