@@ -1,6 +1,5 @@
 {
   "name": "@whitehat-xyz/frontend",
-  "private": true,
   "version": "1.2.0",
   "description": "Skeet Framework Boilerplate with Next.js",
   "author": "wba",
