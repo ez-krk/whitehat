@@ -12,7 +12,7 @@ import { Whitehat } from "../target/types/whitehat";
 
 import fs from "fs";
 import nacl from "tweetnacl";
-import { Ed25519Ecies } from "../ed25519-ecies/src";
+import { Ed25519Ecies } from "@whitehat-xyz/ed25519-ecies";
 
 const commitment: Commitment = "confirmed";
 
