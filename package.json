@@ -6,6 +6,8 @@
     "ed25519-ecies"
   ],
   "scripts": {
+    "start": "yarn workspaces @whitehat-xyz/app start",
+    "dev": "yarn workspaces @whitehat-xyz/app dev",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
     "test": "anchor test",
