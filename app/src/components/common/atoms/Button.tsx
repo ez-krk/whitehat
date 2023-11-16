@@ -58,7 +58,7 @@ const variantStyles = {
 }
 
 type Props = {
-  children: ReactNode | string
+  children: ReactNode | string | any
   variant?: 'solid' | 'outline'
   color?:
     | 'gray'
