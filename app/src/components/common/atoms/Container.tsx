@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 type Props = {
   className?: string
-  children: ReactNode
+  children: ReactNode | any
 }
 
 export default function Container({ className, children, ...props }: Props) {
