@@ -14,8 +14,7 @@
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
-  "references": [
-    { "path": "./app/tsconfig.json" },
-    { "path": "./ed25519-ecies/tsconfig.json" }
-  ]
+  "typeAcquisition": {
+    "enable": true
+  }
 }
