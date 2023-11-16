@@ -1,6 +1,10 @@
 {
   "name": "@whitehat-xyz/monorepo",
   "private": true,
+  "workspaces": [
+    "app",
+    "ed25519-ecies"
+  ],
   "scripts": {
     "start": "yarn workspaces @whitehat-xyz/app start",
     "dev": "pnpm --filter @whitehat-xyz/app dev",

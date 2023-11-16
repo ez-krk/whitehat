@@ -1,7 +1,0 @@
-packages:
-  # all packages in subdirs of packages/ and components/
-  - "app"
-  - "ed25519-ecies"
-  # exclude packages that are inside test directories
-  - "!**/test/**"
-  - "!**/__tests__/**"
