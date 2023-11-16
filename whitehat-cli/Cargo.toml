@@ -1,7 +1,13 @@
 
 [package]
-name = "rs-client"
+name = "whitehat-cli"
 version = "0.1.0"
+authors = ["€$¥ <dev@krk.finance>"]
+license = ""
+readme = "README.md"
+homepage = "https://whitehat.vercel.app"
+repository = "https://github.com/ez-krk/whitehat"
+categories = ["command-line-utilities"]
 edition = "2021"
 
 [dependencies]

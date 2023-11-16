@@ -2809,20 +2809,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rs-client"
-version = "0.1.0"
-dependencies = [
- "borsh 0.10.3",
- "borsh-derive 0.9.3",
- "bs58 0.5.0",
- "rand 0.7.3",
- "serde",
- "solana-client",
- "solana-program",
- "solana-sdk",
-]
-
-[[package]]
 name = "rtoolbox"
 version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4832,6 +4818,20 @@ name = "whitehat"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
+]
+
+[[package]]
+name = "whitehat-cli"
+version = "0.1.0"
+dependencies = [
+ "borsh 0.10.3",
+ "borsh-derive 0.9.3",
+ "bs58 0.5.0",
+ "rand 0.7.3",
+ "serde",
+ "solana-client",
+ "solana-program",
+ "solana-sdk",
 ]
 
 [[package]]

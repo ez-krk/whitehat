@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
     "types": ["mocha", "chai"],
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./app/node_modules/@types"],
     "lib": ["es2015"],
     "module": "commonjs",
     "target": "es6",
+    "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
+  "references": [
+    { "path": "./app/tsconfig.json" },
+    { "path": "./ed25519-ecies/tsconfig.json" }
+  ]
 }
