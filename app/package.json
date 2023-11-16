@@ -72,7 +72,8 @@
     "recoil-persist": "5.0.1",
     "text-encoding": "0.7.0",
     "tweetnacl": "^1.0.3",
-    "zod": "3.21.4"
+    "zod": "3.21.4",
+    "@whitehat-xyz/ed25519-ecies": "workspace:*"
   },
   "devDependencies": {
     "@remark-embedder/core": "3.0.2",
