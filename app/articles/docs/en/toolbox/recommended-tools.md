@@ -1,7 +1,7 @@
 ---
 id: toolbox-recommended-tools
 title: recommended tools
-description: Motivation for the development of Skeet, an open-source full-stack serverless framework
+description: useful anonimyzing technologies
 ---
 
 ## bug bounty protocol : but anonymous, faster and fair.
