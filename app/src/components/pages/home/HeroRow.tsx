@@ -21,6 +21,7 @@ import skeetLogo from '@/assets/img/logo/projects/skeet.svg'
 import bluepill from '@/assets/img/props/bluepill.svg'
 import redpill from '@/assets/img/props/redpill.svg'
 import AnalyticsRow from './AnalyticsRow'
+import Link from '@/components/routing/Link'
 
 export default function HomeHeroRow() {
   const { t } = useTranslation()
@@ -65,20 +66,50 @@ export default function HomeHeroRow() {
         <p className="mx-auto mt-4 max-w-2xl text-xl font-bold tracking-tight text-gray-700 dark:text-gray-200">
           {t('home:HeroRow.body')}
         </p>
-        <div className="mt-10 flex justify-center gap-x-6">
-          <Button href="/auth/login" className="">
-            {t('home:HeroRow.getHacked')}
-          </Button>
-          <Button
-            href="https://github.com/3uild-3thos/whitehat"
-            variant="outline"
-            className=""
+        <div className="flex w-[100%] flex-col items-center justify-center">
+          <Link
+            href="https://hyperdrive.solana.com/projects/"
             target="_blank"
             rel="noreferrer"
           >
-            github
-          </Button>
+            <div className="w-[100]% flex flex-col hover:opacity-50">
+              <div className="mt-8 flex items-center justify-center">
+                <Image
+                  src={'/images/solana.svg'}
+                  width={75}
+                  height={30}
+                  alt="solana"
+                  className={clsx('dark:grayscale', 'dark:invert')}
+                />
+              </div>
+              <Image
+                src={'/images/hyperdrive.png'}
+                width={200}
+                height={30}
+                alt="hyperdrive"
+                className={clsx(
+                  'grayscale dark:grayscale-0',
+                  'invert dark:invert-0'
+                )}
+              />
+            </div>
+          </Link>
+          <div className="mt-8 flex justify-center gap-x-6">
+            <Button href="/dashboard/" className="">
+              {t('home:HeroRow.getHacked')}
+            </Button>
+            <Button
+              href="https://github.com/3uild-3thos/whitehat"
+              variant="outline"
+              className=""
+              target="_blank"
+              rel="noreferrer"
+            >
+              github
+            </Button>
+          </div>
         </div>
+
         <AnalyticsRow />
         <div className="mt-8 lg:mt-10">
           <p className="mx-auto mt-1 max-w-2xl text-2xl tracking-tight text-gray-700 dark:text-gray-200">

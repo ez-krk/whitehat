@@ -87,13 +87,16 @@ export default function AnalyticsRow() {
       })
   }, [])
   return (
-    <div className="mt-6 lg:mt-8">
+    <div className="mt-6 lg:my-12">
       <p className="mx-auto mt-1 max-w-2xl text-lg tracking-tight text-gray-700 dark:text-gray-200">
         {t('home:Analytics.help')}{' '}
         <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text font-bold text-transparent">
           {protocols}
         </span>{' '}
-        {t('home:Analytics.protocols')} {t('home:Analytics.recover')}{' '}
+        {t('home:Analytics.protocols')}
+      </p>
+      <p className="mx-auto mt-1 max-w-2xl text-lg tracking-tight text-gray-700 dark:text-gray-200">
+        {t('home:Analytics.recover')}{' '}
         <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text font-bold text-transparent">
           {solRecovered}
         </span>{' '}
@@ -101,17 +104,14 @@ export default function AnalyticsRow() {
         <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text font-bold text-transparent">
           {hacks}
         </span>{' '}
-        {t('home:Analytics.hacks')} *
-      </p>
-      <p className="mx-auto mt-1 max-w-2xl text-lg tracking-tight text-gray-700 dark:text-gray-200">
-        {t('home:Analytics.help')} {t('home:Analytics.flag')}{' '}
+        {t('home:Analytics.hacks')} {t('home:Analytics.and')}{' '}
         <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text font-bold text-transparent">
           {vulnerabilities}
         </span>{' '}
-        {t('home:Analytics.vulnerabilities')} *
+        {t('home:Analytics.vulnerability')}*
       </p>
       <p className="mx-auto mt-1 max-w-2xl text-lg tracking-tight text-gray-700 dark:text-gray-200">
-        {t('home:Analytics.hackers')}{' '}
+        {t('home:Analytics.whitehats')}{' '}
         <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text font-bold text-transparent">
           {solPaid - solRecovered / 100}
         </span>{' '}

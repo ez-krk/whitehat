@@ -7,15 +7,16 @@
     "getHacked": "get hacked"
   },
   "Analytics": {
-    "help": "we helped",
-    "protocols": "protocols",
-    "recover": "recover",
+    "and": "and",
+    "help": "we help",
+    "protocols": "teams iterate faster and safer.",
+    "recover": "they recovered",
     "across": "across",
     "hacks": "hacks",
     "flag": "flag",
-    "vulnerabilities": "vulnerabilities",
-    "hackers": "hackers received",
-    "safer": "for making the ecosystem safer 🙌"
+    "vulnerability": "vulnerability reports",
+    "whitehats": "whitehats got",
+    "safer": "for keeping your funds safu 🙌"
   },
   "Technologies": {
     "technologies": "technologies used :"

@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import Link from '@/components/routing/Link'
+import { FaNpm } from 'react-icons/fa'
 import type { NewsIndex } from '@/types/article'
 
 type Props = {
@@ -13,23 +14,28 @@ export default function TopNewsRow({ articles, urls }: Props) {
 
   const milestones = [
     {
-      id: 1,
       title: 'ecies encryption',
       description:
         "encrypt vulnerability reports for a solana public key, and decrypt it with it's corresponding private key, to follow 'responsible disclosure' principle.",
       status: 'done',
+      npm: 'https://www.npmjs.com/package/@whitehat-xyz/ed25519-ecies',
       date: '2023-10-15',
     },
     {
-      id: 2,
-      title: 'write docs',
+      title: 'command line interface',
       description:
-        'write comprehensible documentation for both parties involved : including instruction to use our rust/typescript cli clients, and accounts arrays for daos (squads/realms)',
+        'provide a command line interface tool to interact with our program on the blockchain.',
       status: 'todo',
       date: 'Q4 2023',
     },
     {
-      id: 3,
+      title: 'write documentation',
+      description:
+        'including general concepts and architecture, accounts arrays for squads & realms integration, and command line interface usage.',
+      status: 'todo',
+      date: 'Q4 2023',
+    },
+    {
       title: 'wba hack competition (devnet)',
       description:
         'to boostrap program use and social traction : run a competition among wba students to help them discover bugs in their programs to iterate faster while fighting for a cashprize !',
@@ -37,22 +43,20 @@ export default function TopNewsRow({ articles, urls }: Props) {
       date: 'Q4 2023',
     },
     {
-      id: 4,
       title: 'allow multiple programs',
       description:
-        "due to seed constraints, it's only possible to register 1 program per pubkey for now : this needs to change !",
-      status: 'todo',
-      date: 'Q4 2023',
+        "it's now possible to add multiple programs to your protocol 🎉 (previously a seed constraint limitation)",
+      status: 'done',
+      date: '2023-11-16',
     },
     {
-      id: 5,
       title: 'mainnet',
-      description: 'get our program on the battlefield',
+      description:
+        'after extensive testing and hacking attempts, bootstrap whitehat protocol on solana mainnet',
       status: 'todo',
       date: 'Q1 2024',
     },
     {
-      id: 6,
       title: 'atomic hacks',
       description:
         'use transaction introspection to allow hackers to perform a hack followed by a deposit in the same transaction, to legally discharge whitehat hackers even further : effectively never handing over the funds themselves',
@@ -73,7 +77,7 @@ export default function TopNewsRow({ articles, urls }: Props) {
           <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-1 gap-x-8 gap-y-2 lg:mx-0 lg:max-w-none">
             {milestones.map((mile, index) => (
               <article
-                key={`NewsIndex Article${mile.title}`}
+                key={index}
                 className="group flex w-full flex-col items-center justify-center border border-black bg-gray-900 dark:bg-gray-50"
               >
                 <div className="w-full">
@@ -93,6 +97,11 @@ export default function TopNewsRow({ articles, urls }: Props) {
                     >
                       {mile.date}
                     </time>
+                    {mile.npm && (
+                      <Link href={mile.npm}>
+                        <FaNpm className="h-6 w-6 text-[#cb0000]" />
+                      </Link>
+                    )}
                   </div>
                   <div className="relative w-[100%] px-3">
                     <h2 className="my-1.5 text-lg font-semibold leading-6 text-gray-50 dark:text-gray-900">

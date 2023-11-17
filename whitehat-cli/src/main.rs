@@ -421,7 +421,7 @@ fn main() {
         "encrypt" => {
             let message = fs::read_to_string(args[3].as_str()).expect("should have been able to read the file").as_bytes().to_owned();
             println!("{:#?}", message);
-            let to: Pubkey = Pubkey::from_str(args[4].as_str()).unwrap();
+            let to: Pubkey = Pubkey::from_str(args[5].as_str()).unwrap();
             let x = BindGen::new();
             let message = x.encrypt(message, to);
             println!("{:#?}", message);            
