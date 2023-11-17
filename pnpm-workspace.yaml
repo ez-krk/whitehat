@@ -1,4 +1,0 @@
-packages:
-  - "app"
-  - "ed25519-ecies"
-  - "!**/tests/**"

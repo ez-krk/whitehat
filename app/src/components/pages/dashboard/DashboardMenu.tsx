@@ -19,7 +19,7 @@ import {
 } from 'react'
 import { useRecoilValue } from 'recoil'
 import { userState } from '@/store/user'
-import { GPTModel, titleSchema, percentSchema } from '@/utils/form'
+import { GPTModel, pubkeyStringSchema } from '@/utils/form'
 
 import {
   DocumentData,
@@ -32,7 +32,6 @@ import { Dialog, Transition } from '@headlessui/react'
 import { z } from 'zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { registerProtocol } from '@/utils/api/instructions/registerProtocol'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { SOLANA_RPC_ENDPOINT } from '@/constants'
 import { Connection, PublicKey, TransactionSignature } from '@solana/web3.js'
@@ -40,6 +39,7 @@ import { PROTOCOL_PDA } from '@/types'
 import { Program } from '@coral-xyz/anchor'
 import { IDL } from '@/idl'
 import { WhitehatContext } from '@/contexts/WhitehatContextProvider'
+import { addProgram } from '@/utils/api/instructions/addProgram'
 
 export type ChatRoom = {
   id: string
@@ -53,8 +53,7 @@ export type ChatRoom = {
 }
 
 const schema = z.object({
-  name: titleSchema,
-  percent: percentSchema,
+  pubkey: pubkeyStringSchema,
 })
 
 type Inputs = z.infer<typeof schema>
@@ -103,8 +102,7 @@ export default function DashboardMenu({
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      percent: 10,
+      pubkey: '',
     },
   })
 
@@ -112,19 +110,17 @@ export default function DashboardMenu({
   const chatMenuRefMobile = useRef<HTMLDivElement>(null)
 
   const isDisabled = useMemo(() => {
-    return isCreateLoading || errors.name != null || errors.percent != null
-  }, [isCreateLoading, errors.name, errors.percent])
+    return isCreateLoading || errors.pubkey != null
+  }, [isCreateLoading, errors.pubkey])
 
   const onSubmit = useCallback(
     async (data: Inputs) => {
       try {
         setCreateLoading(true)
         if (!isDisabled && publicKey && program && keypair) {
-          const tx = await registerProtocol(
+          const tx = await addProgram(
             publicKey,
-            keypair.publicKey,
-            data.name,
-            data.percent,
+            new PublicKey(data.pubkey),
             connection
           )
 
@@ -193,7 +189,7 @@ export default function DashboardMenu({
       <div className="flex w-full flex-col items-center justify-start pb-4 sm:w-64 sm:pb-0">
         <div className="w-full sm:hidden">
           <div className="flex w-full flex-row items-center justify-center">
-            {/* <button
+            <button
               onClick={() => {
                 setChatListModalOpen(true)
               }}
@@ -203,10 +199,9 @@ export default function DashboardMenu({
                 className={clsx(
                   'h-6 w-6 flex-shrink-0 text-gray-900 dark:text-white'
                 )}
-              />{' '}
-              aaa
-            </button> */}
-            {/* <div className="flex-grow" />
+              />
+            </button>
+            <div className="flex-grow" />
             <h2 className="text-center font-bold">{t('dashboard:title')}</h2>
             <button
               onClick={() => {
@@ -231,7 +226,7 @@ export default function DashboardMenu({
                   'h-6 w-6 flex-shrink-0 text-gray-900 dark:text-white'
                 )}
               />
-            </button> */}
+            </button>
           </div>
         </div>
         <div
@@ -361,7 +356,7 @@ export default function DashboardMenu({
                             <div>
                               <p className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-50">
                                 {t('dashboard:protocolName')}
-                                {errors.name && (
+                                {errors.pubkey && (
                                   <span className="text-xs text-red-500 dark:text-red-300">
                                     {' : '}
                                     {t('chat:modelErrorText')}
@@ -370,7 +365,7 @@ export default function DashboardMenu({
                               </p>
                               <div className="mt-2">
                                 <Controller
-                                  name="name"
+                                  name="pubkey"
                                   control={control}
                                   render={({ field }) => (
                                     <input
@@ -378,45 +373,6 @@ export default function DashboardMenu({
                                       onKeyDown={onKeyDown}
                                       className="w-full border-2 border-gray-900 p-3 text-lg font-bold text-gray-900 dark:border-gray-50 dark:bg-gray-800 dark:text-white sm:leading-6"
                                     />
-                                  )}
-                                />
-                              </div>
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-50">
-                                {t('dashboard:percent')}
-                                {errors.percent && (
-                                  <span className="text-xs text-red-500 dark:text-red-300">
-                                    {' : '}
-                                    {t('dashboard:errorPercent')}
-                                  </span>
-                                )}
-                              </p>
-                              <div className="mt-2">
-                                <Controller
-                                  name="percent"
-                                  control={control}
-                                  render={({ field }) => (
-                                    <>
-                                      <input
-                                        {...field}
-                                        type="range"
-                                        min={0}
-                                        max={100}
-                                        step={1}
-                                        className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-                                        onChange={(e) =>
-                                          field.onChange(
-                                            e.target.value
-                                              ? parseFloat(e.target.value)
-                                              : 0
-                                          )
-                                        }
-                                      />
-                                      <p className="text-bold text-gray-900 dark:text-white">
-                                        {field.value} %
-                                      </p>
-                                    </>
                                   )}
                                 />
                               </div>

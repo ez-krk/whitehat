@@ -3,14 +3,20 @@
   "private": true,
   "workspaces": [
     "app",
-    "ed25519-ecies"
+    "ed25519-ecies",
+    "ts-client"
   ],
   "scripts": {
     "start": "yarn workspace @whitehat-xyz/app start",
     "dev": "yarn workspace @whitehat-xyz/app dev",
+    "dev:ts-client": "yarn workspace @whitehat-xyz/ts-client ts-node index.ts",
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "test": "anchor test",
+    "test:anchor": "anchor test",
+    "test:ed25519-ecies": "yarn workspace @whitehat-xyz/ed25519-ecies test",
+    "build:ed25519-ecies": "yarn workspace @whitehat-xyz/ed25519-ecies build",
+    "publish:ed25519-ecies": "npm login --scope=@whitehat-xyz && yarn workspace @whitehat-xyz/ed25519-ecies publish --access public",
+    "idl": "",
     "wh-report": "ts-node ./ts-client/vulnerability.ts",
     "wh-hack": "ts-node ./ts-client/hack.ts"
   },

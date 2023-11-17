@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from 'react'
 import Link from '@/components/routing/Link'
 import clsx from 'clsx'
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'
+import { copyToClipboard } from '@/utils/userAction'
 
 type Props = {
   children: ReactNode | string
@@ -14,8 +15,12 @@ export default function Button({ children, text, ...props }: Props) {
   const [clicked, setClicked] = useState(false)
 
   const onClick = async () => {
-    await navigator.clipboard.writeText(text)
+    await copyToClipboard(text)
     setClicked(true)
+    setTimeout(() => {
+      setIsShown(false)
+      setClicked(false)
+    }, 500)
   }
 
   useEffect(() => {

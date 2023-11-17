@@ -1,4 +1,4 @@
-import { Ed25519Ecies } from '@/lib/ed25519-ecies/src'
+import { Ed25519Ecies } from '@whitehat-xyz/ed25519-ecies'
 import { Keypair } from '@solana/web3.js'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

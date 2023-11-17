@@ -11,10 +11,25 @@ use solana_sdk::{
     transaction::Transaction,
 };
 use std::{env, fs, str::FromStr};
-
+use wasm_bindgen::prelude::*;
 const COMMITMENT: CommitmentConfig = CommitmentConfig::confirmed();
 
 const URL: &str = "https://api.devnet.solana.com";
+
+#[wasm_bindgen(module = "/index.js")]
+extern "C" {
+    fn name() -> String;
+
+    type BindGen;
+
+    #[wasm_bindgen(constructor)]
+    fn new() -> BindGen;
+
+    #[wasm_bindgen(method)]
+    fn encrypt(this: &BindGen, message: Vec<u8>, to: Pubkey) -> Vec<u8>;
+    #[wasm_bindgen(method)]
+    fn decrypt(this: &BindGen, message: Vec<u8>, to: Keypair) -> String;
+}
 
 pub fn keypair(file: &str) -> Keypair {
     let bytes = string_u8(&file);
@@ -37,6 +52,8 @@ pub fn string_u8(path: &str) -> Vec<u8> {
         .replace("\n", "");
 
     let split: Vec<&str> = trim.split(",").collect();
+    println!("split : {:#?}", split);
+
 
     let mut result: Vec<u8> = Vec::new();
 
@@ -330,6 +347,7 @@ pub fn submit_transaction(
     Ok(signature)
 }
 
+#[wasm_bindgen(start)]
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -350,7 +368,6 @@ fn main() {
         "report_vulnerability" => {
             let payout = args[3].as_str();
             let owner: Pubkey = Pubkey::from(parse_pubkey(args[4].as_str().as_bytes()));
-
             let message = string_u8(args[5].as_str());
             let id = args[6].as_str().parse::<u64>().unwrap();
             let seed = args[7].as_str().parse::<u64>().unwrap();
@@ -400,6 +417,20 @@ fn main() {
 
             let sig =
                 approve_sol_hack(payout, amount, COMMITMENT, &wallet_signer, &rpc_client).unwrap();
+        }
+        "encrypt" => {
+            let message = fs::read_to_string(args[3].as_str()).expect("should have been able to read the file").as_bytes().to_owned();
+            println!("{:#?}", message);
+            let to: Pubkey = Pubkey::from_str(args[4].as_str()).unwrap();
+            let x = BindGen::new();
+            let message = x.encrypt(message, to);
+            println!("{:#?}", message);            
+        }
+        "decrypt" => {
+            let message = string_u8(args[2].as_str());
+            let x = BindGen::new();
+            let message = x.decrypt(message, wallet_signer);
+            println!("{:#?}", message);
         }
         _ => println!("something went wrong !"),
     }

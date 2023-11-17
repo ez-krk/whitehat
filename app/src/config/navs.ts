@@ -11,6 +11,7 @@ import {
   HeartIcon,
   HomeIcon,
   MagnifyingGlassIcon,
+  PaperAirplaneIcon,
   PresentationChartLineIcon,
   ReceiptPercentIcon,
   RocketLaunchIcon,
@@ -169,8 +170,8 @@ export const userMenuNav = [
     icon: PresentationChartLineIcon,
   },
   {
-    name: 'user:menuNav.vulnerabilities',
-    href: '/vulnerabilities/',
+    name: 'user:menuNav.reports',
+    href: '/reports/',
     icon: ShieldExclamationIcon,
   },
   {
@@ -179,14 +180,9 @@ export const userMenuNav = [
     icon: CommandLineIcon,
   },
   // {
-  //   name: 'user:menuNav.vertexAi',
-  //   href: '/user/vertex-ai/',
-  //   icon: AcademicCapIcon,
-  // },
-  // {
-  //   name: 'user:menuNav.chat',
-  //   href: '/user/chat/',
-  //   icon: ChatBubbleLeftRightIcon,
+  //   name: 'user:menuNav.inbox',
+  //   href: '/inbox/',
+  //   icon: PaperAirplaneIcon,
   // },
   // {
   //   name: 'user:menuNav.settings',

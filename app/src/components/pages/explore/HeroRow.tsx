@@ -13,7 +13,10 @@ import {
   BugAntIcon,
   ClockIcon,
   CommandLineIcon,
+  DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline'
+import { copyToClipboard } from '@/utils/userAction'
+import Tooltip from '@/components/common/atoms/Tooltip'
 
 export default function HomeHeroRow() {
   const { t } = useTranslation()
@@ -70,7 +73,7 @@ export default function HomeHeroRow() {
                       key={program.pubkey.toString()}
                     >
                       <div className="flex w-[100%] items-center justify-between px-2">
-                        <div className="flex items-center justify-center space-x-2 p-2 ">
+                        <div className="flex w-36 items-center justify-center space-x-2 p-2 ">
                           <div className="placeholder avatar">
                             <div className="w-12 rounded-full bg-neutral text-neutral-content">
                               <span>MX</span>
@@ -78,7 +81,14 @@ export default function HomeHeroRow() {
                           </div>
                           <div>{program.name}</div>
                         </div>
-
+                        <div className="flex flex-col items-center justify-center">
+                          <div className="text-lg font-bold">
+                            tvl :{' '}
+                            <span className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text text-xl font-bold text-transparent">
+                              $200,000,000
+                            </span>
+                          </div>
+                        </div>
                         <div className="flex flex-col items-end justify-end">
                           <div>
                             <span className="text-xs">hack it for</span>{' '}
@@ -94,22 +104,39 @@ export default function HomeHeroRow() {
                       </div>
                       <div className="mx-auto w-[95%] border-t border-accent pt-2" />
 
-                      <div className="flex w-[100%] items-center space-x-2 px-2 pb-2">
-                        <div className="flex">
-                          <BugAntIcon className="h-6 w-6" />
-                          <span className="ml-1">
-                            {program.vulnerabilities.toNumber()}
-                          </span>
+                      <div className="flex w-[100%]">
+                        <div className="flex w-36 items-center space-x-2 px-2 pb-2">
+                          <div className="flex">
+                            <BugAntIcon className="h-6 w-6" />
+                            <span className="ml-1">
+                              {program.vulnerabilities.toNumber()}
+                            </span>
+                          </div>
+                          <div className="flex">
+                            <CommandLineIcon className="h-6 w-6" />
+                            <span className="ml-1">
+                              {program.hacks.toNumber()}
+                            </span>
+                          </div>
+                          <div className="flex">
+                            <ClockIcon className="h-6 w-6" />
+                            <span className="ml-1">-</span>
+                          </div>
                         </div>
-                        <div className="flex">
-                          <CommandLineIcon className="h-6 w-6" />
-                          <span className="ml-1">
-                            {program.hacks.toNumber()}
-                          </span>
-                        </div>
-                        <div className="flex">
-                          <ClockIcon className="h-6 w-6" />
-                          <span className="ml-1">2 days</span>
+                        <div className="flex w-[100%] items-center justify-center space-x-2 px-2 pb-2 text-center">
+                          <div className="flex">
+                            <Tooltip text={`${program.pubkey.toString()}`}>
+                              <code className="rounded-sm bg-gray-900 p-1 text-xs text-gray-50 dark:bg-white dark:text-gray-900">
+                                {program.pubkey.toString()}
+                              </code>
+                            </Tooltip>
+                            {/* <DocumentDuplicateIcon
+                              className="h-6 w-6 cursor-pointer"
+                              onClick={() =>
+                                copyToClipboard(program.pubkey.toString())
+                              }
+                            /> */}
+                          </div>
                         </div>
                       </div>
                     </div>

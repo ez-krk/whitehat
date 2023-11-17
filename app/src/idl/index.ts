@@ -1,3 +1,4 @@
+import WHITEHAT from './whitehat.json'
 export type IDL = {
   version: '0.1.0'
   name: 'whitehat'
@@ -164,12 +165,72 @@ export type IDL = {
       ]
     },
     {
+      name: 'addProgram'
+      accounts: [
+        {
+          name: 'owner'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'programData'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'protocol'
+          isMut: true
+          isSigner: false
+          pda: {
+            seeds: [
+              {
+                kind: 'const'
+                type: 'string'
+                value: 'protocol'
+              },
+              {
+                kind: 'account'
+                type: 'publicKey'
+                path: 'owner'
+              }
+            ]
+          }
+          relations: ['owner']
+        },
+        {
+          name: 'analytics'
+          isMut: true
+          isSigner: false
+          pda: {
+            seeds: [
+              {
+                kind: 'const'
+                type: 'string'
+                value: 'analytics'
+              }
+            ]
+          }
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: []
+    },
+    {
       name: 'reportVulnerability'
       accounts: [
         {
           name: 'signer'
           isMut: true
           isSigner: true
+        },
+        {
+          name: 'programData'
+          isMut: false
+          isSigner: false
         },
         {
           name: 'payout'
@@ -451,6 +512,87 @@ export type IDL = {
       ]
     },
     {
+      name: 'claimSol'
+      accounts: [
+        {
+          name: 'owner'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'auth'
+          isMut: false
+          isSigner: false
+          pda: {
+            seeds: [
+              {
+                kind: 'const'
+                type: 'string'
+                value: 'auth'
+              },
+              {
+                kind: 'account'
+                type: 'publicKey'
+                account: 'Protocol'
+                path: 'protocol'
+              }
+            ]
+          }
+        },
+        {
+          name: 'vault'
+          isMut: true
+          isSigner: false
+          pda: {
+            seeds: [
+              {
+                kind: 'const'
+                type: 'string'
+                value: 'vault'
+              },
+              {
+                kind: 'account'
+                type: 'publicKey'
+                account: 'Protocol'
+                path: 'protocol'
+              }
+            ]
+          }
+        },
+        {
+          name: 'protocol'
+          isMut: true
+          isSigner: false
+          pda: {
+            seeds: [
+              {
+                kind: 'const'
+                type: 'string'
+                value: 'protocol'
+              },
+              {
+                kind: 'account'
+                type: 'publicKey'
+                path: 'owner'
+              }
+            ]
+          }
+          relations: ['owner']
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: 'amount'
+          type: 'u64'
+        }
+      ]
+    },
+    {
       name: 'approveSolHack'
       accounts: [
         {
@@ -595,6 +737,11 @@ export type IDL = {
           isSigner: true
         },
         {
+          name: 'programData'
+          isMut: false
+          isSigner: false
+        },
+        {
           name: 'protocol'
           isMut: true
           isSigner: false
@@ -627,7 +774,6 @@ export type IDL = {
               }
             ]
           }
-          relations: ['admin']
         },
         {
           name: 'systemProgram'
@@ -644,6 +790,11 @@ export type IDL = {
           name: 'admin'
           isMut: true
           isSigner: true
+        },
+        {
+          name: 'programData'
+          isMut: false
+          isSigner: false
         },
         {
           name: 'protocol'
@@ -711,7 +862,6 @@ export type IDL = {
               }
             ]
           }
-          relations: ['admin']
         },
         {
           name: 'systemProgram'
@@ -729,11 +879,11 @@ export type IDL = {
         kind: 'struct'
         fields: [
           {
-            name: 'admin'
-            type: 'publicKey'
+            name: 'protocols'
+            type: 'u64'
           },
           {
-            name: 'protocols'
+            name: 'programs'
             type: 'u64'
           },
           {
@@ -793,6 +943,14 @@ export type IDL = {
             type: 'publicKey'
           },
           {
+            name: 'programs'
+            type: {
+              vec: {
+                defined: 'Data'
+              }
+            }
+          },
+          {
             name: 'name'
             type: 'string'
           },
@@ -814,6 +972,10 @@ export type IDL = {
           },
           {
             name: 'createdAt'
+            type: 'i64'
+          },
+          {
+            name: 'delay'
             type: 'i64'
           },
           {
@@ -873,6 +1035,10 @@ export type IDL = {
             type: 'publicKey'
           },
           {
+            name: 'program'
+            type: 'publicKey'
+          },
+          {
             name: 'reviewed'
             type: 'bool'
           },
@@ -899,6 +1065,24 @@ export type IDL = {
           {
             name: 'seed'
             type: 'u64'
+          }
+        ]
+      }
+    }
+  ]
+  types: [
+    {
+      name: 'Data'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'address'
+            type: 'publicKey'
+          },
+          {
+            name: 'addedDate'
+            type: 'i64'
           }
         ]
       }
@@ -944,10 +1128,30 @@ export type IDL = {
       code: 6007
       name: 'MessageEmpty'
       msg: 'Message empty.'
+    },
+    {
+      code: 6008
+      name: 'SignerNotProgramUpgradeAuthority'
+      msg: 'Signer Not Program Upgrade Authority.'
+    },
+    {
+      code: 6009
+      name: 'ProtocolNotProgramUpgradeAuthority'
+      msg: 'This Protocol Not Program Upgrade Authority.'
+    },
+    {
+      code: 6010
+      name: 'ProgramAlreadyAddedToProtocol'
+      msg: 'Program Already Added To Protocol.'
+    },
+    {
+      code: 6011
+      name: 'WrongProgramID'
+      msg: 'Wrong Program ID.'
     }
   ]
   metadata: {
-    address: 'HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW'
+    address: 'HATo3yGickypg7QCZJjZAAMYNicGatoDp6b1WKuYx7vm'
   }
 }
 
@@ -1117,12 +1321,72 @@ export const IDL: IDL = {
       ],
     },
     {
+      name: 'addProgram',
+      accounts: [
+        {
+          name: 'owner',
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: 'programData',
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: 'protocol',
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: 'const',
+                type: 'string',
+                value: 'protocol',
+              },
+              {
+                kind: 'account',
+                type: 'publicKey',
+                path: 'owner',
+              },
+            ],
+          },
+          relations: ['owner'],
+        },
+        {
+          name: 'analytics',
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: 'const',
+                type: 'string',
+                value: 'analytics',
+              },
+            ],
+          },
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [],
+    },
+    {
       name: 'reportVulnerability',
       accounts: [
         {
           name: 'signer',
           isMut: true,
           isSigner: true,
+        },
+        {
+          name: 'programData',
+          isMut: false,
+          isSigner: false,
         },
         {
           name: 'payout',
@@ -1404,6 +1668,87 @@ export const IDL: IDL = {
       ],
     },
     {
+      name: 'claimSol',
+      accounts: [
+        {
+          name: 'owner',
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: 'auth',
+          isMut: false,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: 'const',
+                type: 'string',
+                value: 'auth',
+              },
+              {
+                kind: 'account',
+                type: 'publicKey',
+                account: 'Protocol',
+                path: 'protocol',
+              },
+            ],
+          },
+        },
+        {
+          name: 'vault',
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: 'const',
+                type: 'string',
+                value: 'vault',
+              },
+              {
+                kind: 'account',
+                type: 'publicKey',
+                account: 'Protocol',
+                path: 'protocol',
+              },
+            ],
+          },
+        },
+        {
+          name: 'protocol',
+          isMut: true,
+          isSigner: false,
+          pda: {
+            seeds: [
+              {
+                kind: 'const',
+                type: 'string',
+                value: 'protocol',
+              },
+              {
+                kind: 'account',
+                type: 'publicKey',
+                path: 'owner',
+              },
+            ],
+          },
+          relations: ['owner'],
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: 'amount',
+          type: 'u64',
+        },
+      ],
+    },
+    {
       name: 'approveSolHack',
       accounts: [
         {
@@ -1548,6 +1893,11 @@ export const IDL: IDL = {
           isSigner: true,
         },
         {
+          name: 'programData',
+          isMut: false,
+          isSigner: false,
+        },
+        {
           name: 'protocol',
           isMut: true,
           isSigner: false,
@@ -1580,7 +1930,6 @@ export const IDL: IDL = {
               },
             ],
           },
-          relations: ['admin'],
         },
         {
           name: 'systemProgram',
@@ -1597,6 +1946,11 @@ export const IDL: IDL = {
           name: 'admin',
           isMut: true,
           isSigner: true,
+        },
+        {
+          name: 'programData',
+          isMut: false,
+          isSigner: false,
         },
         {
           name: 'protocol',
@@ -1664,7 +2018,6 @@ export const IDL: IDL = {
               },
             ],
           },
-          relations: ['admin'],
         },
         {
           name: 'systemProgram',
@@ -1682,11 +2035,11 @@ export const IDL: IDL = {
         kind: 'struct',
         fields: [
           {
-            name: 'admin',
-            type: 'publicKey',
+            name: 'protocols',
+            type: 'u64',
           },
           {
-            name: 'protocols',
+            name: 'programs',
             type: 'u64',
           },
           {
@@ -1746,6 +2099,14 @@ export const IDL: IDL = {
             type: 'publicKey',
           },
           {
+            name: 'programs',
+            type: {
+              vec: {
+                defined: 'Data',
+              },
+            },
+          },
+          {
             name: 'name',
             type: 'string',
           },
@@ -1767,6 +2128,10 @@ export const IDL: IDL = {
           },
           {
             name: 'createdAt',
+            type: 'i64',
+          },
+          {
+            name: 'delay',
             type: 'i64',
           },
           {
@@ -1826,6 +2191,10 @@ export const IDL: IDL = {
             type: 'publicKey',
           },
           {
+            name: 'program',
+            type: 'publicKey',
+          },
+          {
             name: 'reviewed',
             type: 'bool',
           },
@@ -1852,6 +2221,24 @@ export const IDL: IDL = {
           {
             name: 'seed',
             type: 'u64',
+          },
+        ],
+      },
+    },
+  ],
+  types: [
+    {
+      name: 'Data',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'address',
+            type: 'publicKey',
+          },
+          {
+            name: 'addedDate',
+            type: 'i64',
           },
         ],
       },
@@ -1898,8 +2285,28 @@ export const IDL: IDL = {
       name: 'MessageEmpty',
       msg: 'Message empty.',
     },
+    {
+      code: 6008,
+      name: 'SignerNotProgramUpgradeAuthority',
+      msg: 'Signer Not Program Upgrade Authority.',
+    },
+    {
+      code: 6009,
+      name: 'ProtocolNotProgramUpgradeAuthority',
+      msg: 'This Protocol Not Program Upgrade Authority.',
+    },
+    {
+      code: 6010,
+      name: 'ProgramAlreadyAddedToProtocol',
+      msg: 'Program Already Added To Protocol.',
+    },
+    {
+      code: 6011,
+      name: 'WrongProgramID',
+      msg: 'Wrong Program ID.',
+    },
   ],
   metadata: {
-    address: 'HATNBZtwk8uLUZeSuYK8QYwWzk1kT5didcGFs9a6GtTW',
+    address: 'HATo3yGickypg7QCZJjZAAMYNicGatoDp6b1WKuYx7vm',
   },
 }

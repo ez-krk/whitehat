@@ -83,6 +83,7 @@ impl<'info> RegisterProtocol<'info> {
         protocol.vault_bump = *bumps.get("vault").unwrap();
         protocol.state_bump = *bumps.get("protocol").unwrap();
         protocol.created_at = Clock::get()?.unix_timestamp;
+        protocol.delay = 0;
 
         Ok(())
     }

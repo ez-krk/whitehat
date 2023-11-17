@@ -151,15 +151,30 @@ describe("whitehat", () => {
       .then(confirmTx);
   });
 
+  it("add program to protocol", async () => {
+    await program.methods
+      .addProgram()
+      .accounts({
+        owner: owner.publicKey,
+        programData: program.programId,
+        protocol,
+        analytics,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([owner])
+      .rpc()
+      .then(confirmTx);
+  });
+
   it("report vulnerability", async () => {
-    const msg = fs.readFileSync("./message.txt", {
-      encoding: "utf8",
-      flag: "r",
-    });
-    console.log(msg);
+    // const msg = fs.readFileSync("./message.txt", {
+    //   encoding: "utf8",
+    //   flag: "r",
+    // });
+    // console.log(msg);
 
     const text = await Ed25519Ecies.encrypt(
-      Buffer.from(msg),
+      Buffer.from(message),
       encryption.publicKey.toBuffer()
     );
 
@@ -331,10 +346,34 @@ describe("whitehat", () => {
       });
   });
 
-  it("displays analytics", async () => {
-    const [analytics] = await program.account.analytics.all();
+  it("claim sol", async () => {
+    await program.methods
+      .claimSol(new BN(9 * LAMPORTS_PER_SOL))
+      .accounts({
+        owner: owner.publicKey,
+        protocol,
+        auth,
+        vault,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([owner])
+      .rpc()
+      .then(confirmTx)
+      .then(async () => {
+        console.log(
+          "new vault balance : ",
+          (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
+        );
+        console.log(
+          "new owner balance : ",
+          (await connection.getBalance(owner.publicKey)) / LAMPORTS_PER_SOL +
+            " sol"
+        );
+      });
+  });
 
-    const { account } = analytics;
+  it("displays analytics", async () => {
+    const [{ account }] = await program.account.analytics.all();
     console.log("protocols registered : ", account.protocols.toNumber());
     console.log(
       "total valid vulnerabilities : ",

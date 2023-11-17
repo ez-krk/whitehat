@@ -1,10 +1,12 @@
-use crate::state::{Analytics, Protocol};
+use crate::{state::{Analytics, Protocol}, errors::ErrorCode, program::Whitehat};
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
 pub struct DeleteProtocol<'info> {
-    #[account(mut)]
+    #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
     pub admin: Signer<'info>,
+    #[account(address=Whitehat::id() @ ErrorCode::WrongProgramID)]
+    pub program_data: Account<'info, ProgramData>,
     #[account(
         mut,
         close = admin,
@@ -14,7 +16,6 @@ pub struct DeleteProtocol<'info> {
     pub protocol: Account<'info, Protocol>,
     #[account(
         mut,
-        has_one = admin,
         seeds = [b"analytics"],
         bump = analytics.state_bump,
     )]

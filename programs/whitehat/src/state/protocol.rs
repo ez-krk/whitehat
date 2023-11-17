@@ -14,6 +14,7 @@ pub struct Protocol {
     pub vulnerabilities: u64,
     pub hacks: u64,
     pub created_at: i64,
+    pub delay: i64,
     pub auth_bump: u8,
     pub vault_bump: u8,
     pub state_bump: u8,
@@ -30,7 +31,7 @@ impl Protocol {
         + BUMP_LENGTH * 3; // bump
 }
 
-#[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize)]
+#[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
 pub struct Data {
     pub address: Pubkey,
     pub added_date: i64,

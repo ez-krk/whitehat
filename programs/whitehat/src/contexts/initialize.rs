@@ -42,7 +42,6 @@ impl<'info> Initialize<'info> {
         // pub vault_bump: u8,
         // pub state_bump: u8,
 
-        analytics.admin = self.admin.key();
         analytics.protocols = 0;
         analytics.programs = 0;
         analytics.vulnerabilities = 0;

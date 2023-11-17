@@ -37,7 +37,6 @@ pub struct ApproveSolHack<'info> {
         mut,
         has_one = protocol,
         has_one = payout,
-        close = owner,
         seeds = [b"hack", protocol.key().as_ref(), hack.amount.to_le_bytes().as_ref()],
         bump = hack.bump,
     )]
@@ -56,6 +55,7 @@ impl<'info> ApproveSolHack<'info> {
         let hack = &mut self.hack;
 
         let protocol = &mut self.protocol;
+        protocol.delay = (protocol.delay + (Clock::get()?.unix_timestamp - hack.created_at)) / 2;
 
         // pub payout: Pubkey,
         // pub protocol: Pubkey,

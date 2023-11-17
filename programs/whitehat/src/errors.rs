@@ -18,4 +18,12 @@ pub enum ErrorCode {
     GPGKeyTooBig,
     #[msg("Message empty.")]
     MessageEmpty,
+    #[msg("Signer Not Program Upgrade Authority.")]
+    SignerNotProgramUpgradeAuthority,
+    #[msg("This Protocol Not Program Upgrade Authority.")]
+    ProtocolNotProgramUpgradeAuthority,
+    #[msg("Program Already Added To Protocol.")]
+    ProgramAlreadyAddedToProtocol,
+    #[msg("Wrong Program ID.")]
+    WrongProgramID
 }

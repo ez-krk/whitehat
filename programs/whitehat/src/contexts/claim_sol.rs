@@ -26,14 +26,6 @@ pub struct ClaimSol<'info> {
         bump = protocol.state_bump,
     )]
     pub protocol: Account<'info, Protocol>,
-    #[account(mut)]
-    pub payout: SystemAccount<'info>,
-    #[account(
-        mut,
-        seeds = [b"analytics"],
-        bump = analytics.state_bump,
-    )]
-    pub analytics: Account<'info, Analytics>,
     pub system_program: Program<'info, System>,
 }
 
@@ -69,18 +61,4 @@ impl<'info> ClaimSol<'info> {
 
         transfer(hacker_cpi, amount)
     }
-
-    // pub fn update_analytics(&mut self) -> Result<()> {
-    //     let analytics = &mut self.analytics;
-    //     let hack = &mut self.hack;
-    //     let protocol = &mut self.protocol;
-
-    //     let amount = protocol.percent * hack.amount / 100;
-
-    //     analytics.hacks += 1;
-    //     analytics.sol_recovered += hack.amount;
-    //     analytics.sol_paid += amount;
-    //     analytics.fees += hack.amount / 100;
-    //     Ok(())
-    // }
 }

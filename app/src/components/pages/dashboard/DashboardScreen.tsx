@@ -7,6 +7,7 @@ import DashboardBox from './DashboardBox'
 import { PROTOCOL_PDA, SOL_HACK_PDA, VULNERABILITY_PDA } from '@/types'
 import { WhitehatContext } from '@/contexts/WhitehatContextProvider'
 import { useWallet } from '@solana/wallet-adapter-react'
+import DashboardRegister from './DashboardRegister'
 
 export default function DashboardScreen() {
   const { t } = useTranslation()
@@ -45,8 +46,34 @@ export default function DashboardScreen() {
   return (
     <>
       <div className="content-height flex w-full flex-col items-start justify-start overflow-auto sm:flex-row">
-        {publicKey && (
-          <DashboardMenu
+        {publicKey && programs && programs.length > 0 ? (
+          <>
+            <DashboardMenu
+              program={program}
+              programs={programs}
+              setPrograms={setPrograms}
+              setSelectedProgram={setSelectedProgram}
+              isNewChatModalOpen={isNewChatModalOpen}
+              setNewChatModalOpen={setNewChatModalOpen}
+              currentChatRoomId={currentChatRoomId}
+              setCurrentChatRoomId={setCurrentChatRoomId}
+              chatList={chatList}
+              setChatList={setChatList}
+              lastChat={lastChat}
+              setLastChat={setLastChat}
+              isDataLoading={isDataLoading}
+              setDataLoading={setDataLoading}
+            />
+            <DashboardBox
+              programs={programs}
+              selectedProgram={selectedProgram}
+              pendingVulnerability={pendingVulnerability}
+              pendingHacks={pendingHacks}
+              currentChatRoomId={currentChatRoomId}
+            />
+          </>
+        ) : (
+          <DashboardRegister
             program={program}
             programs={programs}
             setPrograms={setPrograms}
@@ -63,14 +90,6 @@ export default function DashboardScreen() {
             setDataLoading={setDataLoading}
           />
         )}
-
-        <DashboardBox
-          programs={programs}
-          selectedProgram={selectedProgram}
-          pendingVulnerability={pendingVulnerability}
-          pendingHacks={pendingHacks}
-          currentChatRoomId={currentChatRoomId}
-        />
       </div>
     </>
   )

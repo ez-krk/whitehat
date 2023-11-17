@@ -3,6 +3,9 @@ import { z } from 'zod'
 export const emailSchema = z.string().email()
 export const passwordSchema = z.string().min(8)
 export const titleSchema = z.string().min(1).max(50)
+export const pubkeyStringSchema = z
+  .string()
+  .refine((v) => /^([0-9]|[A-z]){44}$/.test(v), 'wrong public key format !')
 export const usernameSchema = z.string().min(1).max(20)
 export const privacySchema = z.boolean().refine((v) => v === true)
 
