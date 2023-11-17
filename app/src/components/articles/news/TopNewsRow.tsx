@@ -59,7 +59,7 @@ export default function TopNewsRow({ articles, urls }: Props) {
     {
       title: 'atomic hacks',
       description:
-        'use transaction introspection to allow hackers to perform a hack followed by a deposit in the same transaction, to legally discharge whitehat hackers even further : effectively never handing over the funds themselves',
+        'use transaction introspection to allow whitehats to perform a hack and a deposit in the same transaction, to legally discharge whitehat hackers even further : effectively never handing over the funds themselves',
       status: 'todo',
       date: 'Q2 2024',
     },

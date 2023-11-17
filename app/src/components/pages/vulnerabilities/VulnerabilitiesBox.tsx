@@ -37,7 +37,7 @@ import type { PROTOCOL_PDA, SOL_HACK_PDA, VULNERABILITY_PDA } from '@/types'
 import { approveVulnerability } from '@/utils/api/instructions/approveVulnerability'
 import { deleteVulnerability } from '@/utils/api/instructions/deleteVulnerability'
 import { WhitehatContext } from '@/contexts/WhitehatContextProvider'
-import { Ed25519Ecies } from '@/lib/ed25519-ecies/dist/index'
+import { Ed25519Ecies } from '@whitehat-xyz/ed25519-ecies'
 import Wallet from '@/components/common/atoms/Wallet'
 
 export default function VulnerabilitiesBox() {
@@ -65,7 +65,7 @@ export default function VulnerabilitiesBox() {
     keypair,
   } = useContext(WhitehatContext)
 
-  const onClick = async (id: BN, seed: BN) => {
+  const onClick = async (id: number, seed: number) => {
     if (publicKey)
       try {
         const tx = await approveVulnerability(publicKey, id, seed, connection)
