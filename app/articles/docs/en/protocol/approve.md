@@ -6,14 +6,25 @@ description: instructions to approve a vulnerability or exploit
 
 ## instructions to approve a vulnerability or exploit
 
-they're not the same instruction, but their user experience is similar.
+they're not the same instructions, but share a similar user experience.
 
 ⚠️**make sure the vulnerability reports conforms to our minimum vulnerability template**⚠️
 
-- ⚠️ **you must follow the minimum vulnerability template** ⚠️
-- a `.txt`file or [node.js]()
-- use either our [cli tool]() or [npm package]()
-- encrypt the vulnerability for a **protocol encryption public key**.
+## minimum vulnerability template
+
+```md
+## account constraint on protocol account.
+
+## clear description, including how it was discovered.
+
+## steps to reproduce.
+
+## severity level (low, medium, high, critical).
+
+## any supporting evidence (screenshots, logs, etc..).
+
+## recommendations for fixing the issue.
+```
 
 ## approve vulnerability account array
 

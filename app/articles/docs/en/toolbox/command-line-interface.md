@@ -8,12 +8,12 @@ description: command line interface
 
 usage documentation for whitehat-cli [crate](), generated with [soda](https://www.usesoda.dev/) 🥤
 
-## 🧪 dependencies 🧪
+## dependencies
 
 - [rust](https://www.rust-lang.org/)
 - [solana-cli](https://docs.solana.com/cli/)
 
-## 📗 Usage 📗
+## usage
 
 ### ① install whitehat-cli
 

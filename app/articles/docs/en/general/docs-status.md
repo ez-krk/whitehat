@@ -9,7 +9,7 @@ description: docs status
 | item                     | status | description                              |
 | ------------------------ | :----: | ---------------------------------------- |
 | `motivation`             |   🟧   | project motivation and ambitions.        |
-| `quickstart`             |   🟧   | user onboarding.                         |
+| `quickstart`             |   🟩   | user onboarding.                         |
 | `revenue model`          |   🟥   | vc pitch, fees explanations.             |
 | `legal discharge`        |   🟥   | how we protect whitehats.                |
 | `register`               |   🟩   | protocol registration.                   |
@@ -20,4 +20,4 @@ description: docs status
 | `vulnerability`          |   🟩   | instructions for vulnerability report.   |
 | `exploit`                |   🟩   | instructions for asset recovery.         |
 | `command line interface` |   🟧   | document usage of our tool.              |
-| `recommended tools`      |   🟥   | useful anonimyzing technologies.         |
+| `recommended tools`      |   🟩   | useful anonimyzing technologies.         |
