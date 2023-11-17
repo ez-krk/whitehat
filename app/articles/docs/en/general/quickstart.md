@@ -35,6 +35,6 @@ description: describes the whitehat protocol
 
 we constrained dispute resolution to whitehat protocol **upgrade authority** only.
 
-this means, once we move program authority to a _squad_ : the _squad_ will handle dispute resolutions.
+once we move program authority to a _squad_ : the _squad_ will handle dispute resolutions.
 
 we plan to move the program authority on a _squad_ and later on a _realm_.
