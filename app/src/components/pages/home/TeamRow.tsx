@@ -103,7 +103,7 @@ export default function TeamRow({ articles, urls }: Props) {
                     </p>
                     <div className="flex w-[100%] items-center justify-center border-t border-gray-50 p-1.5 pt-4 dark:border-gray-900">
                       <div
-                        className={`w-36 rounded-sm bg-gray-50 text-center text-xs text-gray-900 dark:bg-gray-900 dark:text-gray-50`}
+                        className={`mb-1.5 w-36 rounded-sm bg-gray-50 text-center text-xs text-gray-900 dark:bg-gray-900 dark:text-gray-50`}
                       >
                         {member.role}
                       </div>

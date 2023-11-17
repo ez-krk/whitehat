@@ -99,20 +99,20 @@ export default function HomeHeroRow() {
               {t('home:HeroRow.getHacked')}
             </Button>
             <Button
-              href="https://github.com/3uild-3thos/whitehat"
+              href="/docs/"
               variant="outline"
-              className=""
+              className="font-bold"
               target="_blank"
               rel="noreferrer"
             >
-              github
+              read the docs
             </Button>
           </div>
         </div>
 
         <AnalyticsRow />
         <div className="mt-8 lg:mt-10">
-          <p className="mx-auto mt-1 max-w-2xl text-2xl tracking-tight text-gray-700 dark:text-gray-200">
+          <p className="mx-auto mt-1 max-w-2xl text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
             {t('home:Technologies.technologies')}
           </p>
           <ul

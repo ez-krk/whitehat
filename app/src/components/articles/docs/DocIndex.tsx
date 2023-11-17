@@ -31,7 +31,7 @@ const actions = [
     iconBackground: 'bg-green-50',
   },
   {
-    title: 'docs:actions.protocols.title',
+    title: 'docs:actions.protocol.title',
     body: 'docs:actions.quickstart.body',
     href: '/docs/general/quickstart',
     icon: ShieldCheckIcon,
@@ -39,7 +39,7 @@ const actions = [
     iconBackground: 'bg-blue-50',
   },
   {
-    title: 'docs:actions.hackers.title',
+    title: 'docs:actions.whitehat.title',
     body: 'docs:actions.quickstart.body',
     href: '/docs/general/quickstart',
     icon: CommandLineIcon,
@@ -59,7 +59,10 @@ export default function DocIndex() {
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl">
               {t('docs:title')}
             </h2>
-            <div className="flex items-center justify-between space-x-4">
+            <p className="mt-2 text-lg leading-8 text-gray-700 dark:text-gray-300">
+              {t('docs:body')}
+            </p>
+            {/* <div className="flex items-center justify-between space-x-4">
               <Image
                 src={bluepill}
                 width={42}
@@ -85,7 +88,7 @@ export default function DocIndex() {
                 className="-rotate-45"
                 id="redPill"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="py-12">

@@ -4,8 +4,10 @@ import {
   BugAntIcon,
   ChatBubbleLeftRightIcon,
   CheckBadgeIcon,
+  CheckCircleIcon,
   Cog8ToothIcon,
   CommandLineIcon,
+  CpuChipIcon,
   CurrencyDollarIcon,
   EyeSlashIcon,
   HeartIcon,
@@ -19,6 +21,7 @@ import {
   ShieldExclamationIcon,
   UserPlusIcon,
   WrenchScrewdriverIcon,
+  XCircleIcon,
 } from '@heroicons/react/24/outline'
 
 export const defaultMainNav = [
@@ -31,8 +34,8 @@ export const defaultMainNav = [
   //   href: '/news/',
   // },
   {
-    name: 'navs.defaultMainNav.explore',
-    href: '/explore/',
+    name: 'navs.defaultMainNav.scout',
+    href: '/scout/',
   },
   {
     name: 'navs.defaultMainNav.docs',
@@ -50,8 +53,8 @@ export const commonFooterNav = [
   //   href: '/news/',
   // },
   {
-    name: 'navs.defaultMainNav.explore',
-    href: '/explore/',
+    name: 'navs.defaultMainNav.scout',
+    href: '/scout/',
   },
   {
     name: 'navs.commonFooterNav.docs',
@@ -78,75 +81,85 @@ export const docMenuNav = [
         href: '/docs/general/quickstart/',
         icon: RocketLaunchIcon,
       },
-      // {
-      //   name: 'docs:menuNav.general.protocols',
-      //   href: '/docs/general/protocols/',
-      //   icon: ShieldCheckIcon,
-      // },
-      // {
-      //   name: 'docs:menuNav.general.hackers',
-      //   href: '/docs/general/hackers/',
-      //   icon: CommandLineIcon,
-      // },
       {
-        name: 'docs:menuNav.general.readme',
-        href: '/docs/general/readme/',
-        icon: BookOpenIcon,
-      },
-    ],
-  },
-  {
-    name: 'docs:menuNav.protocols.groupTitle',
-    children: [
-      {
-        name: 'docs:menuNav.protocols.register',
-        href: '/docs/protocols/register/',
-        icon: UserPlusIcon,
-      },
-      {
-        name: 'docs:menuNav.protocols.fees',
-        href: '/docs/protocols/fees/',
+        name: 'docs:menuNav.general.revenueModel',
+        href: '/docs/general/revenue-model/',
         icon: ReceiptPercentIcon,
       },
       {
-        name: 'docs:menuNav.protocols.payout',
-        href: '/docs/protocols/payout/',
-        icon: CurrencyDollarIcon,
+        name: 'docs:menuNav.general.legalDischarge',
+        href: '/docs/general/legal-discharge/',
+        icon: CheckBadgeIcon,
+      },
+      // {
+      //   name: 'docs:menuNav.general.readme',
+      //   href: '/docs/general/readme/',
+      //   icon: BookOpenIcon,
+      // },
+    ],
+  },
+  {
+    name: 'docs:menuNav.protocol.groupTitle',
+    children: [
+      {
+        name: 'docs:menuNav.protocol.register',
+        href: '/docs/protocol/register/',
+        icon: UserPlusIcon,
+      },
+      {
+        name: 'docs:menuNav.protocol.addProgram',
+        href: '/docs/protocol/add-program/',
+        icon: CpuChipIcon,
+      },
+      {
+        name: 'docs:menuNav.protocol.approve',
+        href: '/docs/protocol/approve/',
+        icon: CheckCircleIcon,
+      },
+      {
+        name: 'docs:menuNav.protocol.dispute',
+        href: '/docs/protocol/dispute/',
+        icon: XCircleIcon,
       },
     ],
   },
   {
-    name: 'docs:menuNav.hackers.groupTitle',
+    name: 'docs:menuNav.whitehat.groupTitle',
     children: [
       {
-        name: 'docs:menuNav.hackers.explore',
-        href: '/docs/hackers/explore/',
+        name: 'docs:menuNav.whitehat.scout',
+        href: '/docs/whitehat/scout/',
         icon: MagnifyingGlassIcon,
       },
       {
-        name: 'docs:menuNav.hackers.vulnerability',
-        href: '/docs/hackers/vulnerability/',
+        name: 'docs:menuNav.whitehat.payout',
+        href: '/docs/whitehat/payout/',
+        icon: CurrencyDollarIcon,
+      },
+      {
+        name: 'docs:menuNav.whitehat.vulnerability',
+        href: '/docs/whitehat/vulnerability/',
         icon: BugAntIcon,
       },
       {
-        name: 'docs:menuNav.hackers.exploit',
-        href: '/docs/hackers/exploit/',
+        name: 'docs:menuNav.whitehat.exploit',
+        href: '/docs/whitehat/exploit/',
+        icon: CommandLineIcon,
+      },
+    ],
+  },
+  {
+    name: 'docs:menuNav.toolbox.groupTitle',
+    children: [
+      {
+        name: 'docs:menuNav.toolbox.cli',
+        href: '/docs/toolbox/command-line-interface/',
         icon: CommandLineIcon,
       },
       {
-        name: 'docs:menuNav.hackers.tooling',
-        href: '/docs/hackers/tooling/',
+        name: 'docs:menuNav.toolbox.tooling',
+        href: '/docs/toolbox/recommended-tools/',
         icon: WrenchScrewdriverIcon,
-      },
-      {
-        name: 'docs:menuNav.hackers.legalDischarge',
-        href: '/docs/genera/legal-discharge/',
-        icon: CheckBadgeIcon,
-      },
-      {
-        name: 'docs:menuNav.hackers.anonymity',
-        href: '/docs/hackers/anonymity/',
-        icon: EyeSlashIcon,
       },
     ],
   },
@@ -157,10 +170,10 @@ export const docHeaderNav = [
     name: 'docs:headerNav.home',
     href: '/',
   },
-  {
-    name: 'docs:headerNav.news',
-    href: '/news/',
-  },
+  // {
+  //   name: 'docs:headerNav.news',
+  //   href: '/news/',
+  // },
 ]
 
 export const userMenuNav = [

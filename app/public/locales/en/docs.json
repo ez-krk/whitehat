@@ -1,6 +1,6 @@
 {
   "title": "whitehat",
-  "body": "get hacked, get it back !",
+  "body": "bug bounty protocol : but anonymous, faster and fair.",
   "bluePill": "get hacked, get it back",
   "redPill": "hack with impunity",
   "previousPage": "previous page",
@@ -14,13 +14,13 @@
       "title": "quickstart",
       "body": "see how it works on both sides before hacking (or getting hacked) !"
     },
-    "protocols": {
-      "title": "protocols",
-      "body": "get hacked, get it back !"
+    "protocol": {
+      "title": "protocol",
+      "body": "blue team."
     },
-    "hackers": {
-      "title": "hackers",
-      "body": "hack with impunity !"
+    "whitehat": {
+      "title": "whitehat",
+      "body": "red team."
     }
   },
   "menuNav": {
@@ -29,26 +29,31 @@
       "groupTitle": "general",
       "motivation": "motivation",
       "quickstart": "quickstart",
+      "revenueModel": "revenue model",
+      "legalDischarge": "legal discharge",
       "protocols": "protocols",
       "hackers": "hackers",
       "readme": "README"
     },
-    "protocols": {
-      "groupTitle": "protocols",
+    "protocol": {
+      "groupTitle": "protocol",
       "register": "register",
-      "fees": "fees",
-      "payout": "payout",
-      "readme": "README"
+      "addProgram": "add program",
+      "approve": "approve",
+      "dispute": "dispute"
     },
-    "hackers": {
-      "groupTitle": "hackers",
-      "explore": "explore",
+    "whitehat": {
+      "groupTitle": "whitehat",
+      "scout": "scout",
+      "payout": "payout",
       "vulnerability": "vulnerability",
       "exploit": "exploit",
-      "tooling": "tooling",
-      "legalDischarge": "legal discharge",
-      "anonymity": "anonymity",
-      "payout": "payout"
+      "anonymity": "anonymity"
+    },
+    "toolbox": {
+      "groupTitle": "toolbox",
+      "cli": "command line interface",
+      "tooling": "recommented tools"
     }
   },
   "headerNav": {

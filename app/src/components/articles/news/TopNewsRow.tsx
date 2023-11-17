@@ -38,7 +38,7 @@ export default function TopNewsRow({ articles, urls }: Props) {
     {
       title: 'wba hack competition (devnet)',
       description:
-        'to boostrap program use and social traction : run a competition among wba students to help them discover bugs in their programs to iterate faster while fighting for a cashprize !',
+        'boostrap program use and social traction among wba students to discover bugs and iterate, while fighting for a cashprize !',
       status: 'todo',
       date: 'Q4 2023',
     },
@@ -50,6 +50,13 @@ export default function TopNewsRow({ articles, urls }: Props) {
       date: '2023-11-16',
     },
     {
+      title: 'dao dispute resolution',
+      description:
+        "one shouldn't single-handedly resolve disputes & appeals :  we believe the ecosystem should regule itself by it's members, participating administrative tasks and/or process.",
+      status: 'todo',
+      date: 'Q4 2023',
+    },
+    {
       title: 'mainnet',
       description:
         'after extensive testing and hacking attempts, bootstrap whitehat protocol on solana mainnet',
@@ -59,7 +66,7 @@ export default function TopNewsRow({ articles, urls }: Props) {
     {
       title: 'atomic hacks',
       description:
-        'use transaction introspection to allow whitehats to perform a hack and a deposit in the same transaction, to legally discharge whitehat hackers even further : effectively never handing over the funds themselves',
+        'use transaction introspection to perform a hack and a deposit in the same transaction, to legally discharge whitehats even further : never handing over the funds.',
       status: 'todo',
       date: 'Q2 2024',
     },
@@ -87,7 +94,7 @@ export default function TopNewsRow({ articles, urls }: Props) {
                         mile.status == 'done'
                           ? 'bg-success text-white'
                           : 'bg-gray-50 dark:bg-gray-900'
-                      }  px-3 py-1.5 font-medium text-gray-900 dark:text-gray-50`}
+                      }  px-3 py-1 font-medium text-gray-900 dark:text-gray-50`}
                     >
                       {mile.status}
                     </span>
@@ -104,11 +111,11 @@ export default function TopNewsRow({ articles, urls }: Props) {
                     )}
                   </div>
                   <div className="relative w-[100%] px-3">
-                    <h2 className="my-1.5 text-lg font-semibold leading-6 text-gray-50 dark:text-gray-900">
+                    <h2 className="my-1 text-lg font-semibold leading-6 text-gray-50 dark:text-gray-900">
                       <span className="absolute inset-0" />
                       {mile.title}
                     </h2>
-                    <p className="my-1.5 w-full text-xs leading-6 text-gray-50 dark:text-gray-900">
+                    <p className="my-1 w-full text-xs leading-6 text-gray-50 dark:text-gray-900">
                       {`${mile.description}`}
                     </p>
                   </div>

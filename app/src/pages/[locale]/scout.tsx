@@ -12,10 +12,10 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next'
 const articleDirName = 'news'
 
 const seo = {
-  pathname: '/',
+  pathname: '/scout',
   title: {
     ja: 'トップページ',
-    en: 'explore',
+    en: 'scout',
   },
   description: {
     ja: siteConfig.descriptionJA,
@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       articles,
       ...(await getI18nProps(
         ctx,
-        ['common', 'home', 'explore', articleDirName],
+        ['common', 'home', 'scout', articleDirName],
         seo
       )),
     },

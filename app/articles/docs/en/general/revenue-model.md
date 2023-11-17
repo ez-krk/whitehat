@@ -1,6 +1,6 @@
 ---
-id: general-motivation
-title: motivation
+id: general-revenue-model
+title: revenue model
 description: Motivation for the development of Skeet, an open-source full-stack serverless framework
 ---
 

@@ -1,67 +1,32 @@
 ---
-id: general-quickstart
-title: quickstart
-description: describes the whitehat protocol
+id: toolbox-command-line-interface
+title: command line interface
+description: Describes the setup for getting started with the Skeet framework.
 ---
 
-## documentation status
+## 💃 What's Skeet? 🕺
 
-| item              | status | description                            |
-| ----------------- | :----: | -------------------------------------- |
-| `motivation`      |   ❌   | project motivation and ambitions.      |
-| `quickstart`      |   ❌   | user onboarding.                       |
-| `revenue model`   |   ❌   | vc pitch, fees explanations.           |
-| `legal discharge` |   ❌   | how we protect whitehats.              |
-| `register`        |   ✔️   | protocol registration.                 |
-| `approve`         |   ✔️   | vulnerability and exploit approval.    |
-| `dispute`         |   ❌   | vulnerability and exploit dispute.     |
-| `scout`           |   ❌   | scouting for registered protocols.     |
-| `vulnerability`   |   ✔️   | instructions for vulnerability report. |
-| `exploit`         |   ✔️   | instructions for asset recovery.       |
-| `payout`          |   ❌   | project motivation and ambitions.      |
+⚡️ Reduce App Development and Maintenance Costs ⚡️
 
-## what is whitehat ?
+Skeet is an Open-Source Full-stack Serverless Application Framework.
 
-⚡️ bounty protocol : but anonymous, fast and fair. ⚡️
+Skeet was born to reduce the cost of software development and operation.
 
-tl;dr : _it's a 2 steps workflow : **vulnerability report**, then **exploit**_ (protocol validates each step).
+Start developing and deploying serverless apps quickly.
 
-whitehat protocol is a program on the solana blockchain, submitted by a team of [WBA]() members for [solana hyperdrive hackathon](https://hyperdrive.solana.com/), currently deployed on devnet.
+Get ready to use scalable Cloud Firestore and Cloud Functions securely right away.
 
-currently deployed program address : `HATo3yGickypg7QCZJjZAAMYNicGatoDp6b1WKuYx7vm`.
+![https://storage.googleapis.com/skeet-assets/animation/skeet-cli-create-latest.gif](https://storage.googleapis.com/skeet-assets/animation/skeet-cli-create-latest.gif)
 
-we bring the followings to the bug bounty industry :
+## 🧪 Dependency 🧪
 
-1. no bureacracy
-2. privacy
-3. legal discharge
-4. fair payout
-
-in this documentation, you may read a lot the words **protocol** and **whitehat** :
-
-- **protocol** refers to a developer owning and registering other programs in ours, and paying **whitehat** for a set percentage if they report a vulnerability and return all the funds.
-- **whitehat** refers to a developer or "_hacker_" interacting with our program, and programs owned by a **protocol** in attempt to cause unwanted behavior (often withdrawing tokens), help the **protocol** team to iterate on the issue, and get paid after returning all funds obtained this way.
-
-**by using whitehat, protocols agrees to legally discharge whitehats returning all fudns**
-
-⚠️ whitehats have to follow the minimum vulnerability template ⚠️
-
-## 🧪 workflow 🧪
-
-### protocol
-
-1. [protocol registration](/docs/protocol/register/) set _name_, _whitehat percent_.
-2. [add program](/docs/protocol/register/) signer must be _program upgrade authority_.
-3. [vulnerability approval](https://nodejs.org/ja/) (or _dispute/appeal_)
-4. [exploit approval](https://nodejs.org/ja/)
-5.
-
-### whitehat
-
-1. [vulnerability report](https://nodejs.org/ja/) ^18.18.0
-2. [exploit](https://nodejs.org/ja/)
-3. [payout](https://nodejs.org/ja/)
-   (recovered funds split, or _dispute/appeal_)
+- [TypeScript](https://www.typescriptlang.org/) ^5.0.0
+- [Node.js](https://nodejs.org/ja/) ^18.18.0
+- [Yarn](https://yarnpkg.com/) ^1.22.19
+- [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) ^430.0.0
+- [Firebase CLI](https://firebase.google.com/docs/cli) ^12.0.0
+- [GitHub CLI](https://cli.github.com/) ^2.29.0
+- [Java](https://www.java.com/en/download/)
 
 ※ We don't write Java but we need it for mobile apps working
 

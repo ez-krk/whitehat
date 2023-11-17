@@ -1,7 +1,7 @@
 ---
-id: general-motivation
-title: motivation
-description: Motivation for the development of Skeet, an open-source full-stack serverless framework
+id: whitehat-scout
+title: scout
+description: scout registered protocols
 ---
 
 ## bug bounty protocol : but anonymous, faster and fair.

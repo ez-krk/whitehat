@@ -1,6 +1,6 @@
 ---
-id: general-motivation
-title: motivation
+id: toolbox-recommended-tools
+title: recommended tools
 description: Motivation for the development of Skeet, an open-source full-stack serverless framework
 ---
 

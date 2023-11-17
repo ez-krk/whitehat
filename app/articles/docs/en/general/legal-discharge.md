@@ -1,10 +1,10 @@
 ---
-id: general-motivation
-title: motivation
-description: Motivation for the development of Skeet, an open-source full-stack serverless framework
+id: general-legal-discharge
+title: legal discharge
+description: explanaing how we legally discharge whitehats
 ---
 
-## bug bounty protocol : but anonymous, faster and fair.
+## explanaing how we legally discharge whitehats
 
 bug bounty protocols often requires researchers to disclose their identity, the process is very bureaucratic and time-consuming for both parties involved, which causes harm for both parties, and often discourage whitehat hackers from getting their hands dirty.
 
