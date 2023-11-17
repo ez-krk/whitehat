@@ -137,11 +137,6 @@ export const docMenuNav = [
         icon: MagnifyingGlassIcon,
       },
       {
-        name: 'docs:menuNav.whitehat.payout',
-        href: '/docs/whitehat/payout/',
-        icon: CurrencyDollarIcon,
-      },
-      {
         name: 'docs:menuNav.whitehat.vulnerability',
         href: '/docs/whitehat/vulnerability/',
         icon: BugAntIcon,

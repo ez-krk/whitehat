@@ -10,8 +10,6 @@ to register a protocol there are few prerequesites :
 
 - protocol name (_max 50 characters_)
 - whitehat percent : percent whitehats get paid to return all funds.
-- your 1st program address (_you can add more later_)
-- signer must be the **upgrade authority** of your program (_hot wallet, ledger, multisig, governance, etc.._)
 
 ## account array
 

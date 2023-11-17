@@ -46,7 +46,6 @@
     "whitehat": {
       "groupTitle": "whitehat",
       "scout": "scout",
-      "payout": "payout",
       "vulnerability": "vulnerability",
       "exploit": "exploit",
       "anonymity": "anonymity"

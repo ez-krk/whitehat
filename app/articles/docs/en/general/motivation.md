@@ -4,6 +4,12 @@ title: motivation
 description: Motivation for the development of whitehat, an on-chain bug bounty protocol
 ---
 
+## what is whitehat ?
+
+whitehat protocol is a program on the solana blockchain, submitted by a team of [WBA]() members for [solana hyperdrive hackathon](https://hyperdrive.solana.com/).
+
+currently deployed on devnet at : `HATo3yGickypg7QCZJjZAAMYNicGatoDp6b1WKuYx7vm`.
+
 ## bounty protocol : but anonymous, fast and fair.
 
 bug bounty protocols are bureaucratic and time-consuming for both parties, id disclosure mandatory, and risks of duplicated reports often discourage whitehats.

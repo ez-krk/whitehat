@@ -9,7 +9,7 @@ description: instructions to add a program to a protocol (requires a registered 
 to add a program, here are the requirements :
 
 - program address
-- signer must be the **upgrade authority** of your program (_hot wallet, ledger, multisig, governance, etc.._)
+- signer must be the the program's **upgrade authority**
 
 ## account array
 
