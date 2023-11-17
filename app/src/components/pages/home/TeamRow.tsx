@@ -64,8 +64,6 @@ export default function TeamRow({ articles, urls }: Props) {
     },
   ]
 
-  const colors = ['13f195', '1370f1', '9513f1', 'f11370', '#70f113']
-
   return (
     <>
       <div className="pb-24 pt-8 sm:pb-48 sm:pt-12">
@@ -75,7 +73,7 @@ export default function TeamRow({ articles, urls }: Props) {
               meet the team
             </h2>
           </div>
-          <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-3 gap-x-8 gap-y-2 lg:mx-0 lg:max-w-none">
+          <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-3 lg:mx-0 lg:max-w-none">
             {members.map((member, index) => (
               <article
                 key={`NewsIndex Article${index}`}
