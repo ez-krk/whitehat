@@ -27,6 +27,7 @@
     "home": "docs home",
     "general": {
       "groupTitle": "general",
+      "docsStatus": "docs status",
       "motivation": "motivation",
       "quickstart": "quickstart",
       "revenueModel": "revenue model",

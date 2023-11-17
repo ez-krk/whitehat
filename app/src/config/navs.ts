@@ -72,6 +72,11 @@ export const docMenuNav = [
     name: 'docs:menuNav.general.groupTitle',
     children: [
       {
+        name: 'docs:menuNav.general.docsStatus',
+        href: '/docs/general/docs-status/',
+        icon: AcademicCapIcon,
+      },
+      {
         name: 'docs:menuNav.general.motivation',
         href: '/docs/general/motivation/',
         icon: HeartIcon,
