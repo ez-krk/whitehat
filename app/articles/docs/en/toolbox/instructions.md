@@ -1,3 +1,9 @@
+---
+id: toolbox-instructions
+title: instructions
+description: whitehat program instructions
+---
+
 ## initialize
 
 ### accounts array

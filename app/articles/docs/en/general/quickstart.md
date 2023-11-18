@@ -20,8 +20,8 @@ description: describes the whitehat protocol
 
 1. [register](/docs/protocol/register/) set _name_, _whitehat percent_.
 2. [add program](/docs/protocol/add-program/) signer must be _program upgrade authority_.
-3. [vulnerability approval](https://nodejs.org/ja/) (or _dispute_)
-4. [exploit approval](https://nodejs.org/ja/) (or _dispute_)
+3. [vulnerability approval](/docs/protocol/approve/) or [dispute](/docs/protocol/dispute/)
+4. [exploit approval](/docs/protocol/approve/) or [dispute](/docs/protocol/dispute/)
 5. voilà !
 
 ### whitehat
@@ -35,6 +35,6 @@ description: describes the whitehat protocol
 
 we constrained dispute resolution to whitehat protocol **upgrade authority** only.
 
-once we move program authority to a _squad_ : the _squad_ will handle dispute resolutions.
+in other words, once we move program authority to a _squad_ : the _squad_ will handle dispute resolutions.
 
 we plan to move the program authority on a _squad_ and later on a _realm_.
