@@ -157,8 +157,8 @@ export const docMenuNav = [
         icon: CommandLineIcon,
       },
       {
-        name: 'docs:menuNav.toolbox.tooling',
-        href: '/docs/toolbox/recommended-tools/',
+        name: 'docs:menuNav.toolbox.instructions',
+        href: '/docs/toolbox/instructions/',
         icon: WrenchScrewdriverIcon,
       },
     ],

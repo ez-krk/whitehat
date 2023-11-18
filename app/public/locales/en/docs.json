@@ -53,7 +53,7 @@
     "toolbox": {
       "groupTitle": "toolbox",
       "cli": "command line interface",
-      "tooling": "recommented tools"
+      "instructions": "instructions"
     }
   },
   "headerNav": {
