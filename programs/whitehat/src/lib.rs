@@ -19,61 +19,70 @@ pub mod whitehat {
     }
 
     // register a protocol, set a name and % paid to hackers
-    pub fn register_protocol(
-        ctx: Context<RegisterProtocol>,
+    pub fn protocol_register(
+        ctx: Context<ProtocolRegister>,
         name: String,
         percent: u64,
     ) -> Result<()> {
-        ctx.accounts.register_protocol(&ctx.bumps, name, percent)?;
+        ctx.accounts.protocol_register(&ctx.bumps, name, percent)?;
         ctx.accounts.update_analytics()
     }
 
-    pub fn add_program(ctx: Context<AddProgram>) -> Result<()> {
-        ctx.accounts.add_program()
+    pub fn program_add(ctx: Context<ProgramAdd>) -> Result<()> {
+        ctx.accounts.program_add()
+    }
+
+    pub fn program_delete(ctx: Context<ProgramDelete>) -> Result<()> {
+        ctx.accounts.program_delete()
     }
 
     // vulnerability report, text ecies encrypted off-chain for protocol owner pubkey
-    pub fn report_vulnerability(
-        ctx: Context<ReportVulnerability>,
+    pub fn vulnerability_report(
+        ctx: Context<VulnerabilityReport>,
         message: Vec<u8>,
         id: u64,
         seed: u64,
     ) -> Result<()> {
         ctx.accounts
-            .report_vulnerability(&ctx.bumps, message, id, seed)
+            .vulnerability_report(&ctx.bumps, message, id, seed)
     }
 
     // turns reviewed from `false` to `true` on vulnerability pda, only protocol owner
-    pub fn approve_vulnerability(ctx: Context<ApproveVulnerability>) -> Result<()> {
-        ctx.accounts.approve_vulnerability()?;
+    pub fn vulnerability_approve(ctx: Context<VulnerabilityApprove>) -> Result<()> {
+        ctx.accounts.vulnerability_approve()?;
         ctx.accounts.update_analytics()
     }
 
     // deposit from signer to protocol vault anonymously, hacker input payout adress through instruction accounts
-    pub fn deposit_sol_hack(ctx: Context<DepositSolHack>, amount: u64) -> Result<()> {
-        ctx.accounts.deposit_sol_hack(&ctx.bumps, amount)
+    pub fn exploit_sol_deposit(ctx: Context<ExploitSolDeposit>, amount: u64) -> Result<()> {
+        ctx.accounts.exploit_sol_deposit(&ctx.bumps, amount)
     }
 
-    // (ONLY PROTOCOL OWNER) claim sol in escrow
-    pub fn claim_sol(ctx: Context<ClaimSol>, amount: u64) -> Result<()> {
-        ctx.accounts.claim_sol(amount)
+    // (ONLY PROTOCOL OWNER) claim sol in owner's protocol vault
+    pub fn dispute_sol(ctx: Context<DisputeSol>, amount: u64) -> Result<()> {
+        ctx.accounts.dispute_sol(amount)
     }
 
     // (ONLY PROTOCOL OWNER) pay the hacker to inputed payout address for % set by protocol
-    pub fn approve_sol_hack(ctx: Context<ApproveSolHack>) -> Result<()> {
-        ctx.accounts.approve_sol_hack()?;
+    pub fn exploit_sol_approve(ctx: Context<ExploitSolApprove>) -> Result<()> {
+        ctx.accounts.exploit_sol_approve()?;
         ctx.accounts.update_analytics()
     }
 
-    // (ONLY ADMIN) delete a protocol
-    pub fn delete_protocol(ctx: Context<DeleteProtocol>) -> Result<()> {
-        ctx.accounts.delete_protocol()?;
+    // (ONLY ADMIN) delete a protocol (ban)
+    pub fn delete_protocol(ctx: Context<ProtocolDelete>) -> Result<()> {
+        ctx.accounts.protocol_delete()?;
         ctx.accounts.update_analytics()
     }
 
-    // (ONLY ADMIN) delete a protocol
-    pub fn delete_vulnerability(ctx: Context<DeleteVulnerability>) -> Result<()> {
-        ctx.accounts.delete_vulnerability()?;
+    // (ONLY ADMIN) delete a vulnerability (triage, disputes)
+    pub fn delete_vulnerability(ctx: Context<VulnerabilityDelete>) -> Result<()> {
+        ctx.accounts.vulnerability_delete()?;
         ctx.accounts.update_analytics()
+    }
+
+    // (ONLY ADMIN) delete a vulnerability (triage, disputes)
+    pub fn exploit_sol_delete(ctx: Context<ExploitSolDelete>) -> Result<()> {
+        ctx.accounts.exploit_sol_delete()
     }
 }

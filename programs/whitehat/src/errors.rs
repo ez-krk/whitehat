@@ -10,20 +10,22 @@ pub enum ErrorCode {
     HackerNameEmpty,
     #[msg("Hacker Name Too Long, 50 Characters Maximum.")]
     HackerNameTooLong,
-    #[msg("GPG Key Empty.")]
-    GPGKeyEmpty,
-    #[msg("GPG Key Too Small, 2048 Characters Min.")]
-    GPGKeyTooSmall,
-    #[msg("GPG Key Too Big, 4096 characters maximum.")]
-    GPGKeyTooBig,
     #[msg("Message empty.")]
     MessageEmpty,
+    #[msg("Wrong Vulnerability ID.")]
+    WrongVulnerabilityID,
+    #[msg("Signer Not Protocol Owner.")]
+    SignerNotProtocolOwner,
     #[msg("Signer Not Program Upgrade Authority.")]
     SignerNotProgramUpgradeAuthority,
     #[msg("This Protocol Not Program Upgrade Authority.")]
     ProtocolNotProgramUpgradeAuthority,
-    #[msg("Program Already Added To Protocol.")]
-    ProgramAlreadyAddedToProtocol,
+    #[msg("Program Already In Protocol List.")]
+    ProgramAlreadyInProtocolList,
+    #[msg("Program Not In Protocol List.")]
+    ProgramNotInProtocolList,
     #[msg("Wrong Program ID.")]
-    WrongProgramID
+    WrongProgramID,
+    #[msg("Mismatch Protocol Owner And Program Owner.")]
+    MismatchProtocolOwnerAndProgramOwner,
 }

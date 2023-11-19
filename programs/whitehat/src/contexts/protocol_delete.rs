@@ -1,26 +1,23 @@
-use crate::{state::{Analytics, Protocol, Vulnerability}, errors::ErrorCode, program::Whitehat};
+use crate::{
+    errors::ErrorCode,
+    program::Whitehat,
+    state::{Analytics, Protocol},
+};
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
-pub struct DeleteVulnerability<'info> {
+pub struct ProtocolDelete<'info> {
     #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
-    pub admin: Signer<'info>,
+    pub owner: Signer<'info>,
     #[account(address=Whitehat::id() @ ErrorCode::WrongProgramID)]
     pub program_data: Account<'info, ProgramData>,
     #[account(
         mut,
+        close = owner,
         seeds = [b"protocol", protocol.owner.key().as_ref()],
         bump = protocol.state_bump,
     )]
     pub protocol: Account<'info, Protocol>,
-    #[account(
-        mut,
-        close = admin,
-        has_one = protocol,
-        seeds = [b"vulnerability", protocol.key().as_ref(), vulnerability.id.to_le_bytes().as_ref(), vulnerability.seed.to_le_bytes().as_ref()],
-        bump = vulnerability.bump,
-    )]
-    pub vulnerability: Account<'info, Vulnerability>,
     #[account(
         mut,
         seeds = [b"analytics"],
@@ -30,8 +27,8 @@ pub struct DeleteVulnerability<'info> {
     pub system_program: Program<'info, System>,
 }
 
-impl<'info> DeleteVulnerability<'info> {
-    pub fn delete_vulnerability(&mut self) -> Result<()> {
+impl<'info> ProtocolDelete<'info> {
+    pub fn protocol_delete(&mut self) -> Result<()> {
         // pub owner: Pubkey,
         // pub sol_vault: Pubkey,
         // pub name: String,
@@ -46,7 +43,7 @@ impl<'info> DeleteVulnerability<'info> {
     }
     pub fn update_analytics(&mut self) -> Result<()> {
         let analytics = &mut self.analytics;
-        analytics.vulnerabilities -= 1;
+        analytics.protocols -= 1;
         Ok(())
     }
 }

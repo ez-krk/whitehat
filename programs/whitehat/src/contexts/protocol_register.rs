@@ -1,16 +1,21 @@
 use crate::{
     constants::*,
     errors::ErrorCode,
-    state::{Analytics, Protocol},
+    state::{protocol::Data, Analytics, Protocol},
 };
 use anchor_lang::prelude::*;
 use std::collections::BTreeMap;
 
 #[derive(Accounts)]
 #[instruction(name: String, percent: u64)]
-pub struct RegisterProtocol<'info> {
-    #[account(mut)]
+pub struct ProtocolRegister<'info> {
+    #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
     pub owner: Signer<'info>,
+    #[account(
+        executable,
+        constraint = program_data.upgrade_authority_address.unwrap() == protocol.owner @ ErrorCode::MismatchProtocolOwnerAndProgramOwner
+    )]
+    pub program_data: Account<'info, ProgramData>,
     #[account()]
     pub encryption: SystemAccount<'info>,
     #[account(
@@ -42,8 +47,8 @@ pub struct RegisterProtocol<'info> {
     pub system_program: Program<'info, System>,
 }
 
-impl<'info> RegisterProtocol<'info> {
-    pub fn register_protocol(
+impl<'info> ProtocolRegister<'info> {
+    pub fn protocol_register(
         &mut self,
         bumps: &BTreeMap<String, u8>,
         name: String,
@@ -73,18 +78,21 @@ impl<'info> RegisterProtocol<'info> {
         protocol.owner = self.owner.key();
         protocol.encryption = self.encryption.key();
         protocol.vault = self.vault.key();
-        protocol.programs = Vec::new();
         protocol.name = name;
         protocol.percent = percent;
         protocol.paid = 0;
         protocol.vulnerabilities = 0;
         protocol.hacks = 0;
+        protocol.delay = 0;
+        let timestamp = Clock::get()?.unix_timestamp;
+        protocol.programs = vec![Data {
+            address: self.program_data.key(),
+            timestamp,
+        }];
+        protocol.created_at = timestamp;
         protocol.auth_bump = *bumps.get("auth").unwrap();
         protocol.vault_bump = *bumps.get("vault").unwrap();
         protocol.state_bump = *bumps.get("protocol").unwrap();
-        protocol.created_at = Clock::get()?.unix_timestamp;
-        protocol.delay = 0;
-
         Ok(())
     }
     pub fn update_analytics(&mut self) -> Result<()> {

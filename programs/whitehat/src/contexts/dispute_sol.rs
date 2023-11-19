@@ -1,12 +1,20 @@
-use crate::state::{Analytics, Protocol};
+use crate::{
+    errors::ErrorCode,
+    program::Whitehat,
+    state::{Analytics, Protocol},
+};
 use anchor_lang::prelude::*;
 use anchor_lang::system_program::{transfer, Transfer};
 
 #[derive(Accounts)]
 #[instruction(amount: u64)]
-pub struct ClaimSol<'info> {
-    #[account(mut)]
+pub struct DisputeSol<'info> {
+    #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
     pub owner: Signer<'info>,
+    #[account(address=Whitehat::id() @ ErrorCode::WrongProgramID)]
+    pub program_data: Account<'info, ProgramData>,
+    #[account(mut)]
+    pub destination: SystemAccount<'info>,
     #[account(
         seeds = [b"auth", protocol.key().as_ref()],
         bump = protocol.auth_bump
@@ -21,7 +29,6 @@ pub struct ClaimSol<'info> {
     vault: SystemAccount<'info>,
     #[account(
         mut,
-        has_one = owner,
         seeds = [b"protocol", owner.key().as_ref()],
         bump = protocol.state_bump,
     )]
@@ -29,9 +36,8 @@ pub struct ClaimSol<'info> {
     pub system_program: Program<'info, System>,
 }
 
-impl<'info> ClaimSol<'info> {
-    pub fn claim_sol(&mut self, amount: u64) -> Result<()> {
-
+impl<'info> DisputeSol<'info> {
+    pub fn dispute_sol(&mut self, amount: u64) -> Result<()> {
         // pub payout: Pubkey,
         // pub protocol: Pubkey,
         // pub value: u64,
@@ -48,14 +54,14 @@ impl<'info> ClaimSol<'info> {
 
         let signer_seeds = &[&seeds[..]];
 
-        let owner_accounts = Transfer {
+        let destination_accounts = Transfer {
             from: self.vault.to_account_info(),
-            to: self.owner.to_account_info(),
+            to: self.destination.to_account_info(),
         };
 
         let hacker_cpi = CpiContext::new_with_signer(
             self.system_program.to_account_info(),
-            owner_accounts,
+            destination_accounts,
             signer_seeds,
         );
 

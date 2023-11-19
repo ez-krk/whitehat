@@ -1,10 +1,10 @@
 ---
 id: protocol-approve
 title: approve
-description: instructions to approve a vulnerability or exploit
+description: approve a vulnerability or exploit
 ---
 
-## instructions to approve a vulnerability or exploit
+## approve a vulnerability or exploit
 
 they're not the same instructions, but share a similar user experience.
 
@@ -26,15 +26,14 @@ they're not the same instructions, but share a similar user experience.
 ## recommendations for fixing the issue.
 ```
 
-## approve vulnerability account array
+## approve vulnerability accounts array
 
-| name             | mut | sig | description                                                |
-| ---------------- | :-: | :-: | ---------------------------------------------------------- |
-| `owner`          | ✅  | ✅  | signer of the transaction, protocol owner.                 |
-| `protocol`       |     |     | `protocol.owner` must me `program_data` upgrade authority. |
-| `vulnerability`  | ✅  |     | your vulnerability report.                                 |
-| `analytics`      | ✅  |     | global pda for analytics.                                  |
-| `system_program` |     |     | the solana system program id.                              |
+| name          | mut | sig | description                                                |
+| ------------- | --- | --- | ---------------------------------------------------------- |
+| owner         | ✔️  | ✔️  | signer of the transaction, protocol owner.                 |
+| protocol      | ❌  | ❌  | `protocol.owner` must me `program_data` upgrade authority. |
+| vulnerability | ✔️  | ❌  | the vulnerability report to approve                        |
+| analytics     | ✔️  | ❌  | global pda for analytics.                                  |
 
 ## approve exploit account array
 

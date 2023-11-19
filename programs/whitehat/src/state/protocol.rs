@@ -34,5 +34,9 @@ impl Protocol {
 #[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
 pub struct Data {
     pub address: Pubkey,
-    pub added_date: i64,
+    pub timestamp: i64,
+}
+
+impl Data {
+    pub const LEN:usize = PUBLIC_KEY_LENGTH + 8;
 }

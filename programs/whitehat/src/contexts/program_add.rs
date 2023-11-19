@@ -1,19 +1,22 @@
 use crate::{
-    constants::*,
     errors::ErrorCode,
-    state::{Analytics, Protocol, protocol::Data},
+    state::{protocol::Data, Analytics, Protocol},
 };
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
-pub struct AddProgram<'info> {
+pub struct ProgramAdd<'info> {
     #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
     pub owner: Signer<'info>,
+    #[account(
+        executable,
+        constraint = program_data.upgrade_authority_address.unwrap() == protocol.owner @ ErrorCode::MismatchProtocolOwnerAndProgramOwner
+    )]
     pub program_data: Account<'info, ProgramData>,
     #[account(
         mut,
         has_one = owner,
-        realloc = Protocol::LEN + (32 + 8),
+        realloc = Protocol::LEN + protocol.programs.len() * Data::LEN,
         realloc::zero = false,
         realloc::payer = owner,
         seeds = [b"protocol", owner.key().as_ref()],
@@ -29,10 +32,8 @@ pub struct AddProgram<'info> {
     pub system_program: Program<'info, System>,
 }
 
-impl<'info> AddProgram<'info> {
-    pub fn add_program(
-        &mut self,
-    ) -> Result<()> {
+impl<'info> ProgramAdd<'info> {
+    pub fn program_add(&mut self) -> Result<()> {
         // pub owner: Pubkey,
         // pub encryption: Pubkey,
         // pub vault: Pubkey,
@@ -46,10 +47,20 @@ impl<'info> AddProgram<'info> {
         // pub auth_bump: u8,
         // pub vault_bump: u8,
         // pub state_bump: u8,
-        require!(!self.protocol.programs.iter().any(|i| i.address == self.program_data.key()), ErrorCode::ProgramAlreadyAddedToProtocol);
+        require!(
+            !self
+                .protocol
+                .programs
+                .iter()
+                .any(|i| i.address == self.program_data.key()),
+            ErrorCode::ProgramAlreadyInProtocolList
+        );
 
         let protocol = &mut self.protocol;
-        let data = Data {address : self.program_data.key(), added_date : Clock::get()?.unix_timestamp};
+        let data = Data {
+            address: self.program_data.key(),
+            timestamp: Clock::get()?.unix_timestamp,
+        };
         protocol.programs.push(data);
 
         Ok(())
