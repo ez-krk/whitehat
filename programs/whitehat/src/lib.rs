@@ -85,4 +85,23 @@ pub mod whitehat {
     pub fn exploit_sol_delete(ctx: Context<ExploitSolDelete>) -> Result<()> {
         ctx.accounts.exploit_sol_delete()
     }
+
+    pub fn exploit_spl_deposit(ctx: Context<ExploitSPLDeposit>, amount: u64) -> Result<()> {
+        ctx.accounts.exploit_sol_deposit(&ctx.bumps, amount)
+    }
+
+    // (ONLY PROTOCOL OWNER) claim spl in owner's protocol vault
+    pub fn dispute_spl(ctx: Context<DisputeSpl>, amount: u64) -> Result<()> {
+        ctx.accounts.dispute_spl(amount)
+    }
+
+    // (ONLY PROTOCOL OWNER) pay the hacker to inputed payout address for % set by protocol
+    pub fn exploit_spl_approve(ctx: Context<ExploitSPLApprove>) -> Result<()> {
+        ctx.accounts.exploit_spl_approve()
+    }
+
+    // (ONLY ADMIN) delete a vulnerability (triage, disputes)
+    pub fn exploit_spl_delete(ctx: Context<ExploitSPLDelete>) -> Result<()> {
+        ctx.accounts.exploit_spl_delete()
+    }
 }

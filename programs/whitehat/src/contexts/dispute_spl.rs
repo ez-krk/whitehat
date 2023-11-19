@@ -1,8 +1,4 @@
-use crate::{
-    errors::ErrorCode,
-    program::Whitehat,
-    state::{Analytics, Protocol},
-};
+use crate::{errors::ErrorCode, program::Whitehat, state::Protocol};
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{transfer, Mint, Token, TokenAccount, Transfer};

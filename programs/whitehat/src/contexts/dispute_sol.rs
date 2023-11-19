@@ -1,8 +1,4 @@
-use crate::{
-    errors::ErrorCode,
-    program::Whitehat,
-    state::{Analytics, Protocol},
-};
+use crate::{errors::ErrorCode, program::Whitehat, state::Protocol};
 use anchor_lang::prelude::*;
 use anchor_lang::system_program::{transfer, Transfer};
 
