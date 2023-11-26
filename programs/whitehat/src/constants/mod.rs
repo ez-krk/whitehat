@@ -6,4 +6,4 @@ pub const VECTOR_LENGTH_PREFIX: usize = 4;
 pub const MAX_PROTOCOL_LENGTH: usize = 50 * 4; // 50 chars max.
 pub const BUMP_LENGTH: usize = 1;
 pub const BOOL_LENGTH: usize = 1;
-pub const SEED_LENGTH: usize = 4;
+pub const SEED_LENGTH: usize = 8;

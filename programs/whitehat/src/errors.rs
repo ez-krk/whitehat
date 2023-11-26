@@ -28,4 +28,6 @@ pub enum ErrorCode {
     WrongProgramID,
     #[msg("Mismatch Protocol Owner And Program Owner.")]
     MismatchProtocolOwnerAndProgramOwner,
+    #[msg("No Mint Provided.")]
+    NoMintProvided,
 }

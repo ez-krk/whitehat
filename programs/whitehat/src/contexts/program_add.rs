@@ -5,12 +5,17 @@ use crate::{
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
+#[instruction(program_id: Pubkey)]
 pub struct ProgramAdd<'info> {
-    #[account(mut, address=program_data.upgrade_authority_address.unwrap() @ ErrorCode::SignerNotProgramUpgradeAuthority)]
+    #[account(mut)]
     pub owner: Signer<'info>,
     #[account(
-        executable,
-        constraint = program_data.upgrade_authority_address.unwrap() == protocol.owner @ ErrorCode::MismatchProtocolOwnerAndProgramOwner
+        executable
+    )]
+    /// CHECK: we will deserialize manually.
+    pub program: AccountInfo<'info>,
+    #[account(
+        // constraint = program_data.upgrade_authority_address == Some(protocol.owner) @ ErrorCode::MismatchProtocolOwnerAndProgramOwner
     )]
     pub program_data: Account<'info, ProgramData>,
     #[account(
@@ -33,7 +38,7 @@ pub struct ProgramAdd<'info> {
 }
 
 impl<'info> ProgramAdd<'info> {
-    pub fn program_add(&mut self) -> Result<()> {
+    pub fn program_add(&mut self, program_id: Pubkey) -> Result<()> {
         // pub owner: Pubkey,
         // pub encryption: Pubkey,
         // pub vault: Pubkey,
@@ -52,13 +57,17 @@ impl<'info> ProgramAdd<'info> {
                 .protocol
                 .programs
                 .iter()
-                .any(|i| i.address == self.program_data.key()),
+                .any(|i| i.program == self.program.key()),
             ErrorCode::ProgramAlreadyInProtocolList
         );
 
+        // require_keys_eq!(self.owner.key(), self.program_data.upgrade_authority_address.unwrap());
+
         let protocol = &mut self.protocol;
         let data = Data {
-            address: self.program_data.key(),
+            owner: self.program_data.upgrade_authority_address.unwrap(),
+            program: self.program.key(),
+            program_data: self.program_data.key(),
             timestamp: Clock::get()?.unix_timestamp,
         };
         protocol.programs.push(data);

@@ -7,7 +7,7 @@ pub struct Analytics {
     pub protocols: u64,
     pub programs: u64,
     pub vulnerabilities: u64,
-    pub hacks: u64,
+    pub exploits: u64,
     pub sol_recovered: u64,
     pub sol_paid: u64,
     pub fees: u64,

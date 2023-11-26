@@ -9,8 +9,12 @@ pub struct ProgramDelete<'info> {
     #[account(mut, address=protocol.owner @ ErrorCode::SignerNotProtocolOwner)]
     pub owner: Signer<'info>,
     #[account(
-        executable,
-        constraint = protocol.programs.iter().any(|i| i.address == program_data.key()) @ ErrorCode::ProgramNotInProtocolList
+        executable
+    )]
+    /// CHECK: we will deserialize manually.
+    pub program: AccountInfo<'info>,
+    #[account(
+        constraint = protocol.programs.iter().any(|i| i.program == program.key()) @ ErrorCode::ProgramNotInProtocolList
     )]
     pub program_data: Account<'info, ProgramData>,
     #[account(
@@ -53,7 +57,7 @@ impl<'info> ProgramDelete<'info> {
         let index = protocol
             .programs
             .iter()
-            .position(|data| data.address == self.program_data.key())
+            .position(|data| data.program == self.program_data.key())
             .unwrap();
 
         protocol.programs.remove(index);

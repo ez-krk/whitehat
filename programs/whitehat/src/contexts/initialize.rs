@@ -45,7 +45,7 @@ impl<'info> Initialize<'info> {
         analytics.protocols = 0;
         analytics.programs = 0;
         analytics.vulnerabilities = 0;
-        analytics.hacks = 0;
+        analytics.exploits = 0;
         analytics.sol_recovered = 0;
         analytics.sol_paid = 0;
         analytics.fees = 0;

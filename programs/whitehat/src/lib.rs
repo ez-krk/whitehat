@@ -23,13 +23,14 @@ pub mod whitehat {
         ctx: Context<ProtocolRegister>,
         name: String,
         percent: u64,
+        program_id: Pubkey
     ) -> Result<()> {
-        ctx.accounts.protocol_register(&ctx.bumps, name, percent)?;
+        ctx.accounts.protocol_register(&ctx.bumps, name, percent, program_id)?;
         ctx.accounts.update_analytics()
     }
 
-    pub fn program_add(ctx: Context<ProgramAdd>) -> Result<()> {
-        ctx.accounts.program_add()
+    pub fn program_add(ctx: Context<ProgramAdd>, program_id: Pubkey) -> Result<()> {
+        ctx.accounts.program_add(program_id)
     }
 
     pub fn program_delete(ctx: Context<ProgramDelete>) -> Result<()> {

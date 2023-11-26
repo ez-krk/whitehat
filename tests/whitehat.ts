@@ -12,7 +12,7 @@ import { Whitehat } from "../target/types/whitehat";
 
 import fs from "fs";
 import nacl from "tweetnacl";
-import { Ed25519Ecies } from "../ed25519-ecies/src";
+import { Ed25519Ecies } from "@whitehat-xyz/ed25519-ecies";
 
 const commitment: Commitment = "confirmed";
 
@@ -20,13 +20,20 @@ const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);
 };
 
+const bytes = [
+  238, 70, 241, 10, 45, 158, 105, 159, 221, 214, 252, 52, 166, 132, 222, 215,
+  103, 33, 67, 85, 200, 115, 90, 106, 137, 66, 211, 131, 206, 248, 120, 159, 54,
+  191, 228, 77, 48, 129, 90, 95, 204, 54, 148, 255, 43, 254, 72, 238, 59, 207,
+  190, 180, 179, 174, 103, 23, 45, 31, 221, 19, 121, 177, 242, 208,
+];
+
 describe("whitehat", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
   const program = anchor.workspace.Whitehat as Program<Whitehat>;
   const connection: Connection = anchor.getProvider().connection;
 
-  const admin = new Keypair();
+  const admin = Keypair.fromSecretKey(new Uint8Array(bytes));
   const owner = new Keypair();
   const signer = new Keypair();
   const payout = new Keypair();
@@ -53,7 +60,7 @@ describe("whitehat", () => {
   )[0];
 
   const protocol = PublicKey.findProgramAddressSync(
-    [Buffer.from("protocol"), owner.publicKey.toBuffer()],
+    [Buffer.from("protocol"), admin.publicKey.toBuffer()],
     program.programId
   )[0];
 
@@ -66,6 +73,12 @@ describe("whitehat", () => {
     [Buffer.from("vault"), protocol.toBytes()],
     program.programId
   )[0];
+
+  const [programData, _bump] = PublicKey.findProgramAddressSync(
+    [program.programId.toBytes()],
+    new PublicKey("BPFLoaderUpgradeab1e11111111111111111111111")
+  );
+  console.log(programData.toString());
 
   const percent = new BN(10);
   const seed = new BN(getRandomInt(1337));
@@ -80,11 +93,22 @@ describe("whitehat", () => {
     199, 13, 246, 142, 217, 177, 174, 9, 130, 131,
   ]);
 
+  const vulnerability = PublicKey.findProgramAddressSync(
+    // b"vulnerability", protocol.key().as_ref(), protocol.vulnerabilities.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
+    [
+      Buffer.from("vulnerability"),
+      protocol.toBytes(),
+      new BN(1).toBuffer("le", 8),
+      seed.toBuffer("le", 8),
+    ],
+    program.programId
+  )[0];
+
   const amount = new BN(10 * LAMPORTS_PER_SOL);
 
-  const hack = PublicKey.findProgramAddressSync(
-    // b"hack", protocol.key().as_ref(), amount.to_le_bytes().as_ref()
-    [Buffer.from("hack"), protocol.toBytes(), amount.toBuffer("le", 8)],
+  const exploit = PublicKey.findProgramAddressSync(
+    // b"exploit", protocol.key().as_ref(), amount.to_le_bytes().as_ref()
+    [Buffer.from("exploit"), protocol.toBytes(), amount.toBuffer("le", 8)],
     program.programId
   )[0];
 
@@ -136,107 +160,84 @@ describe("whitehat", () => {
 
   it("register protocol", async () => {
     await program.methods
-      .registerProtocol("whitehat", percent)
+      .protocolRegister("whitehat", percent, program.programId)
       .accounts({
-        owner: owner.publicKey,
+        owner: admin.publicKey,
         encryption: encryption.publicKey,
         auth,
         vault,
         protocol,
+        // userProgram: program.programId,
         analytics,
         systemProgram: SystemProgram.programId,
       })
-      .signers([owner])
+      .signers([admin])
       .rpc()
       .then(confirmTx);
   });
 
   it("add program to protocol", async () => {
     await program.methods
-      .addProgram()
+      .programAdd(program.programId)
       .accounts({
-        owner: owner.publicKey,
-        programData: program.programId,
+        owner: admin.publicKey,
+        program: program.programId,
+        programData,
         protocol,
         analytics,
         systemProgram: SystemProgram.programId,
       })
-      .signers([owner])
+      .signers([admin])
       .rpc()
-      .then(confirmTx);
+      .then(confirmTx)
+      .then(async () => {
+        const pda = await program.account.protocol.fetch(protocol);
+        console.log(pda);
+      });
   });
 
   it("report vulnerability", async () => {
-    // const msg = fs.readFileSync("./message.txt", {
-    //   encoding: "utf8",
-    //   flag: "r",
-    // });
-    // console.log(msg);
+    const msg = fs.readFileSync("./message.txt", {
+      encoding: "utf8",
+      flag: "r",
+    });
+    console.log(msg);
 
     const text = await Ed25519Ecies.encrypt(
-      Buffer.from(message),
+      Buffer.from(msg),
+      // Buffer.from(message),
       encryption.publicKey.toBuffer()
     );
 
-    const protocolPda = await program.account.protocol.fetch(protocol);
+    console.log(text);
 
-    const vulnerability = PublicKey.findProgramAddressSync(
-      // b"vulnerability", protocol.key().as_ref(), protocol.vulnerabilities.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        new BN(protocolPda.vulnerabilities.toNumber() + 1).toArrayLike(
-          Buffer,
-          "le",
-          8
-        ),
-        seed.toArrayLike(Buffer, "le", 8),
-      ],
-      program.programId
-    )[0];
+    console.log(vulnerability);
 
     await program.methods
-      .reportVulnerability(
-        text,
-        new BN(protocolPda.vulnerabilities.toNumber() + 1),
-        seed
-      )
+      .vulnerabilityReport(text, new BN(1), seed)
       .accounts({
         signer: signer.publicKey,
         payout: payout.publicKey,
-        protocol,
+        program: program.programId,
+        programData,
         vulnerability,
         systemProgram: SystemProgram.programId,
       })
       .signers([signer])
       .rpc()
       .then(confirmTx);
+
+    // .then(async () => {
+    //   const pda = program.account.vulnerability.fetch(vulnerability);
+    //   console.log(pda);
+    // });
   });
 
   it("decrypt vulnerability message", async () => {
-    const protocolPda = await program.account.protocol.fetch(protocol);
-
-    const vulnerability = PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
-        seed.toArrayLike(Buffer, "le", 8),
-      ],
-      program.programId
-    )[0];
-
-    const [{ account }] = await program.account.vulnerability.all([
-      {
-        memcmp: {
-          offset: 8,
-          bytes: protocol.toString(),
-        },
-      },
-    ]);
+    const pda = await program.account.vulnerability.fetch(vulnerability);
 
     const message = await Ed25519Ecies.decrypt(
-      account.message,
+      pda.message,
       encryption.secretKey
     );
 
@@ -245,194 +246,194 @@ describe("whitehat", () => {
     console.log(message.toString());
   });
 
-  it("approve vulnerability", async () => {
-    const protocolPda = await program.account.protocol.fetch(protocol);
+  // it("approve vulnerability", async () => {
+  //   const protocolPda = await program.account.protocol.fetch(protocol);
 
-    console.log(
-      `protocol have ${protocolPda.vulnerabilities.toNumber()} vulnerabilities`
-    );
+  //   console.log(
+  //     `protocol have ${protocolPda.vulnerabilities.toNumber()} vulnerabilities`
+  //   );
 
-    const vulnerability = PublicKey.findProgramAddressSync(
-      // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
-        seed.toArrayLike(Buffer, "le", 8),
-      ],
-      program.programId
-    )[0];
+  //   const vulnerability = PublicKey.findProgramAddressSync(
+  //     // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
+  //     [
+  //       Buffer.from("vulnerability"),
+  //       protocol.toBytes(),
+  //       protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
+  //       seed.toArrayLike(Buffer, "le", 8),
+  //     ],
+  //     program.programId
+  //   )[0];
 
-    await program.methods
-      .approveVulnerability()
-      .accounts({
-        owner: owner.publicKey,
-        protocol,
-        vulnerability,
-        analytics,
-      })
-      .signers([owner])
-      .rpc()
-      .then(confirmTx);
-  });
+  //   await program.methods
+  //     .approveVulnerability()
+  //     .accounts({
+  //       owner: owner.publicKey,
+  //       protocol,
+  //       vulnerability,
+  //       analytics,
+  //     })
+  //     .signers([owner])
+  //     .rpc()
+  //     .then(confirmTx);
+  // });
 
-  it("deposit hacked funds", async () => {
-    const protocolPda = await program.account.protocol.fetch(protocol);
+  // it("deposit hacked funds", async () => {
+  //   const protocolPda = await program.account.protocol.fetch(protocol);
 
-    const vulnerability = PublicKey.findProgramAddressSync(
-      // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
-        seed.toArrayLike(Buffer, "le", 8),
-      ],
-      program.programId
-    )[0];
+  //   const vulnerability = PublicKey.findProgramAddressSync(
+  //     // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
+  //     [
+  //       Buffer.from("vulnerability"),
+  //       protocol.toBytes(),
+  //       protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
+  //       seed.toArrayLike(Buffer, "le", 8),
+  //     ],
+  //     program.programId
+  //   )[0];
 
-    await program.methods
-      .depositSolHack(amount)
-      .accounts({
-        signer: signer.publicKey,
-        payout: payout.publicKey,
-        protocol,
-        vulnerability,
-        hack,
-        vault,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([signer])
-      .rpc()
-      .then(confirmTx)
-      .then(async () => {
-        console.log(
-          "new vault balance : ",
-          (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
-        );
-      });
-  });
+  //   await program.methods
+  //     .depositSolHack(amount)
+  //     .accounts({
+  //       signer: signer.publicKey,
+  //       payout: payout.publicKey,
+  //       protocol,
+  //       vulnerability,
+  //       hack,
+  //       vault,
+  //       systemProgram: SystemProgram.programId,
+  //     })
+  //     .signers([signer])
+  //     .rpc()
+  //     .then(confirmTx)
+  //     .then(async () => {
+  //       console.log(
+  //         "new vault balance : ",
+  //         (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
+  //       );
+  //     });
+  // });
 
-  it("approve hack", async () => {
-    await program.methods
-      .approveSolHack()
-      .accounts({
-        owner: owner.publicKey,
-        payout: payout.publicKey,
-        protocol,
-        hack,
-        auth,
-        vault,
-        fees: whvault,
-        analytics,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([owner])
-      .rpc()
-      .then(confirmTx)
-      .then(async () => {
-        console.log(
-          "new vault balance : ",
-          (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
-        );
-        console.log(
-          "new payout balance : ",
-          (await connection.getBalance(payout.publicKey)) / LAMPORTS_PER_SOL +
-            " sol"
-        );
-        console.log(
-          "whitehat fees earned : ",
-          (await connection.getBalance(whvault)) / LAMPORTS_PER_SOL + " sol"
-        );
-      });
-  });
+  // it("approve hack", async () => {
+  //   await program.methods
+  //     .approveSolHack()
+  //     .accounts({
+  //       owner: owner.publicKey,
+  //       payout: payout.publicKey,
+  //       protocol,
+  //       hack,
+  //       auth,
+  //       vault,
+  //       fees: whvault,
+  //       analytics,
+  //       systemProgram: SystemProgram.programId,
+  //     })
+  //     .signers([owner])
+  //     .rpc()
+  //     .then(confirmTx)
+  //     .then(async () => {
+  //       console.log(
+  //         "new vault balance : ",
+  //         (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
+  //       );
+  //       console.log(
+  //         "new payout balance : ",
+  //         (await connection.getBalance(payout.publicKey)) / LAMPORTS_PER_SOL +
+  //           " sol"
+  //       );
+  //       console.log(
+  //         "whitehat fees earned : ",
+  //         (await connection.getBalance(whvault)) / LAMPORTS_PER_SOL + " sol"
+  //       );
+  //     });
+  // });
 
-  it("claim sol", async () => {
-    await program.methods
-      .claimSol(new BN(9 * LAMPORTS_PER_SOL))
-      .accounts({
-        owner: owner.publicKey,
-        protocol,
-        auth,
-        vault,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([owner])
-      .rpc()
-      .then(confirmTx)
-      .then(async () => {
-        console.log(
-          "new vault balance : ",
-          (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
-        );
-        console.log(
-          "new owner balance : ",
-          (await connection.getBalance(owner.publicKey)) / LAMPORTS_PER_SOL +
-            " sol"
-        );
-      });
-  });
+  // it("claim sol", async () => {
+  //   await program.methods
+  //     .claimSol(new BN(9 * LAMPORTS_PER_SOL))
+  //     .accounts({
+  //       owner: owner.publicKey,
+  //       protocol,
+  //       auth,
+  //       vault,
+  //       systemProgram: SystemProgram.programId,
+  //     })
+  //     .signers([owner])
+  //     .rpc()
+  //     .then(confirmTx)
+  //     .then(async () => {
+  //       console.log(
+  //         "new vault balance : ",
+  //         (await connection.getBalance(vault)) / LAMPORTS_PER_SOL + " sol"
+  //       );
+  //       console.log(
+  //         "new owner balance : ",
+  //         (await connection.getBalance(owner.publicKey)) / LAMPORTS_PER_SOL +
+  //           " sol"
+  //       );
+  //     });
+  // });
 
-  it("displays analytics", async () => {
-    const [{ account }] = await program.account.analytics.all();
-    console.log("protocols registered : ", account.protocols.toNumber());
-    console.log(
-      "total valid vulnerabilities : ",
-      account.vulnerabilities.toNumber()
-    );
-    console.log("total valid hacks : ", account.hacks.toNumber());
-    console.log(
-      "sol recovered : ",
-      account.solRecovered.toNumber() / LAMPORTS_PER_SOL
-    );
-    console.log(
-      "sol paid to hackers : ",
-      account.solPaid.toNumber() / LAMPORTS_PER_SOL
-    );
-    console.log("fees earned : ", account.fees.toNumber() / LAMPORTS_PER_SOL);
-  });
+  // it("displays analytics", async () => {
+  //   const [{ account }] = await program.account.analytics.all();
+  //   console.log("protocols registered : ", account.protocols.toNumber());
+  //   console.log(
+  //     "total valid vulnerabilities : ",
+  //     account.vulnerabilities.toNumber()
+  //   );
+  //   console.log("total valid hacks : ", account.hacks.toNumber());
+  //   console.log(
+  //     "sol recovered : ",
+  //     account.solRecovered.toNumber() / LAMPORTS_PER_SOL
+  //   );
+  //   console.log(
+  //     "sol paid to hackers : ",
+  //     account.solPaid.toNumber() / LAMPORTS_PER_SOL
+  //   );
+  //   console.log("fees earned : ", account.fees.toNumber() / LAMPORTS_PER_SOL);
+  // });
 
-  it("delete vulnerability", async () => {
-    const protocolPda = await program.account.protocol.fetch(protocol);
-    // console.log(protocolPda.vulnerabilities.toNumber());
+  // it("delete vulnerability", async () => {
+  //   const protocolPda = await program.account.protocol.fetch(protocol);
+  //   // console.log(protocolPda.vulnerabilities.toNumber());
 
-    const vulnerability = PublicKey.findProgramAddressSync(
-      // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
-      [
-        Buffer.from("vulnerability"),
-        protocol.toBytes(),
-        protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
-        seed.toArrayLike(Buffer, "le", 8),
-      ],
-      program.programId
-    )[0];
+  //   const vulnerability = PublicKey.findProgramAddressSync(
+  //     // b"vulnerability", protocol.key().as_ref(), id.to_le_bytes().as_ref(), seed.to_le_bytes().as_ref()
+  //     [
+  //       Buffer.from("vulnerability"),
+  //       protocol.toBytes(),
+  //       protocolPda.vulnerabilities.toArrayLike(Buffer, "le", 8),
+  //       seed.toArrayLike(Buffer, "le", 8),
+  //     ],
+  //     program.programId
+  //   )[0];
 
-    await program.methods
-      .deleteVulnerability()
-      .accounts({
-        admin: admin.publicKey,
-        protocol,
-        vulnerability,
-        analytics,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([admin])
-      .rpc()
-      .then(confirmTx);
-  });
+  //   await program.methods
+  //     .deleteVulnerability()
+  //     .accounts({
+  //       admin: admin.publicKey,
+  //       protocol,
+  //       vulnerability,
+  //       analytics,
+  //       systemProgram: SystemProgram.programId,
+  //     })
+  //     .signers([admin])
+  //     .rpc()
+  //     .then(confirmTx);
+  // });
 
-  it("delete protocol", async () => {
-    await program.methods
-      .deleteProtocol()
-      .accounts({
-        admin: admin.publicKey,
-        protocol,
-        analytics,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([admin])
-      .rpc()
-      .then(confirmTx);
-  });
+  // it("delete protocol", async () => {
+  //   await program.methods
+  //     .deleteProtocol()
+  //     .accounts({
+  //       admin: admin.publicKey,
+  //       protocol,
+  //       analytics,
+  //       systemProgram: SystemProgram.programId,
+  //     })
+  //     .signers([admin])
+  //     .rpc()
+  //     .then(confirmTx);
+  // });
 });
 
 const confirmTx = async (signature: string) => {

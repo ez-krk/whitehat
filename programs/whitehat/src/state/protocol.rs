@@ -7,14 +7,14 @@ pub struct Protocol {
     pub owner: Pubkey,
     pub encryption: Pubkey,
     pub vault: Pubkey,
-    pub programs: Vec<Data>,
-    pub name: String,
     pub percent: u64,
     pub paid : u64,
     pub vulnerabilities: u64,
-    pub hacks: u64,
+    pub exploits: u64,
     pub created_at: i64,
     pub delay: i64,
+    pub name: String,
+    pub programs: Vec<Data>,
     pub auth_bump: u8,
     pub vault_bump: u8,
     pub state_bump: u8,
@@ -33,10 +33,12 @@ impl Protocol {
 
 #[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
 pub struct Data {
-    pub address: Pubkey,
+    pub owner: Pubkey,
+    pub program: Pubkey,
+    pub program_data: Pubkey,
     pub timestamp: i64,
 }
 
 impl Data {
-    pub const LEN:usize = PUBLIC_KEY_LENGTH + 8;
+    pub const LEN:usize = PUBLIC_KEY_LENGTH * 2 + 8;
 }
