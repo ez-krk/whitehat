@@ -66,7 +66,7 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>
 
 type Props = {
-  programs: PROTOCOL_PDA[] | null
+  protocol: PROTOCOL_PDA | null
   selectedProgram: PROTOCOL_PDA | null
   pendingVulnerability: number
   pendingHacks: number
@@ -74,7 +74,7 @@ type Props = {
 }
 
 export default function DashboardBox({
-  programs,
+  protocol,
   selectedProgram,
   pendingVulnerability,
   pendingHacks,
@@ -188,8 +188,8 @@ export default function DashboardBox({
                       <div className="flex grow flex-col">
                         <span className="grow">{t('dashboard:programs')}</span>
                         <span className="mb-[16px]">
-                          {programs && programs.length > 0
-                            ? programs.length
+                          {protocol && protocol.programs.length > 0
+                            ? protocol.programs.length
                             : 0}
                         </span>
                       </div>
@@ -203,8 +203,8 @@ export default function DashboardBox({
                             {t('dashboard:vulnerabilities')}
                           </span>
                           <span>
-                            {programs && programs.length > 0
-                              ? programs[0].vulnerabilities.toNumber()
+                            {protocol && protocol.programs.length > 0
+                              ? protocol.vulnerabilities.toNumber()
                               : 0}
                           </span>
                           <span className="text-xs">
@@ -224,8 +224,8 @@ export default function DashboardBox({
                         <div className="flex grow flex-col">
                           <span className="grow">{t('dashboard:hacks')}</span>
                           <span>
-                            {programs && programs[0]
-                              ? programs[0].hacks.toNumber()
+                            {protocol && protocol.programs.length > 0
+                              ? protocol.hacks.toNumber()
                               : 0}
                           </span>
                           <span className="text-xs">

@@ -33,25 +33,21 @@ export default function DashboardScreen() {
 
   const {
     program,
-    programs,
-    setPrograms,
-    vulnerability,
-    setVulnerability,
+    protocol,
+    setProtocol,
     pendingVulnerability,
-    solHacks,
-    setSolHacks,
     pendingHacks,
   } = useContext(WhitehatContext)
 
   return (
     <>
       <div className="content-height flex w-full flex-col items-start justify-start overflow-auto sm:flex-row">
-        {publicKey && programs && programs.length > 0 ? (
+        {publicKey && protocol && protocol.programs.length > 0 ? (
           <>
             <DashboardMenu
               program={program}
-              programs={programs}
-              setPrograms={setPrograms}
+              protocol={protocol}
+              setProtocol={setProtocol}
               setSelectedProgram={setSelectedProgram}
               isNewChatModalOpen={isNewChatModalOpen}
               setNewChatModalOpen={setNewChatModalOpen}
@@ -65,7 +61,7 @@ export default function DashboardScreen() {
               setDataLoading={setDataLoading}
             />
             <DashboardBox
-              programs={programs}
+              protocol={protocol}
               selectedProgram={selectedProgram}
               pendingVulnerability={pendingVulnerability}
               pendingHacks={pendingHacks}
@@ -75,8 +71,8 @@ export default function DashboardScreen() {
         ) : (
           <DashboardRegister
             program={program}
-            programs={programs}
-            setPrograms={setPrograms}
+            protocol={protocol}
+            setProtocol={setProtocol}
             setSelectedProgram={setSelectedProgram}
             isNewChatModalOpen={isNewChatModalOpen}
             setNewChatModalOpen={setNewChatModalOpen}

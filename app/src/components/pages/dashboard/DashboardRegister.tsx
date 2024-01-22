@@ -61,9 +61,9 @@ type Inputs = z.infer<typeof schema>
 
 type Props = {
   program: Program<IDL> | null
-  programs: PROTOCOL_PDA[] | null
-  setPrograms: React.Dispatch<
-    React.SetStateAction<PROTOCOL_PDA[] | null>
+  protocol: PROTOCOL_PDA | null
+  setProtocol: React.Dispatch<
+    React.SetStateAction<PROTOCOL_PDA | null>
   > | null
   setSelectedProgram: React.Dispatch<React.SetStateAction<PROTOCOL_PDA | null>>
   isNewChatModalOpen: boolean
@@ -80,14 +80,8 @@ type Props = {
 
 export default function DashboardRegister({
   program,
-  programs,
-  setPrograms,
-  setSelectedProgram,
   isNewChatModalOpen,
   setNewChatModalOpen,
-  currentChatRoomId,
-  setCurrentChatRoomId,
-  chatList,
 }: Props) {
   const { t, i18n } = useTranslation()
   const [isCreateLoading, setCreateLoading] = useState(false)
@@ -190,7 +184,7 @@ export default function DashboardRegister({
 
   return (
     <>
-      <Transition appear show={isNewChatModalOpen} as={Fragment}>
+      <Transition show={true} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -207,13 +201,14 @@ export default function DashboardRegister({
               &#8203;
             </span>
             <Transition.Child
+              show={true}
               as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+            // enter="ease-out duration-300"
+            // enterFrom="opacity-0 scale-95"
+            // enterTo="opacity-100 scale-100"
+            // leave="ease-in duration-200"
+            // leaveFrom="opacity-100 scale-100"
+            // leaveTo="opacity-0 scale-95"
             >
               <div className="my-8 inline-block w-full max-w-xl -translate-y-10 transform overflow-hidden bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
                 <div className="flex w-full flex-col pb-8">
@@ -318,8 +313,8 @@ export default function DashboardRegister({
           </div>
         </Dialog>
       </Transition>
-
-      <Transition appear show={isChatListModalOpen} as={Fragment}>
+      {/*TODO: fix show for mobile */}
+      <Transition show={false} as={Fragment}>
         <Dialog
           as="div"
           ref={chatMenuRefMobile}

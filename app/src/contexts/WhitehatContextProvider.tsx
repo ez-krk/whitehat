@@ -6,17 +6,14 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { Address, Program } from '@coral-xyz/anchor'
 import { IDL } from '@/idl'
 import { PROGRAM_ID } from '@/constants'
-import { useRecoilValue } from 'recoil'
-import { userState } from '@/store/user'
-import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes'
-import { Keypair } from '@solana/web3.js'
+import { Keypair, PublicKey } from '@solana/web3.js'
 import { useRouter } from 'next/router'
 
 interface WhitehatContext {
   program: Program<IDL> | null
-  programs: PROTOCOL_PDA[] | null
-  setPrograms: React.Dispatch<
-    React.SetStateAction<PROTOCOL_PDA[] | null>
+  protocol: PROTOCOL_PDA | null
+  setProtocol: React.Dispatch<
+    React.SetStateAction<PROTOCOL_PDA | null>
   > | null
   vulnerability: VULNERABILITY_PDA[] | null
   setVulnerability: React.Dispatch<
@@ -33,8 +30,8 @@ interface WhitehatContext {
 
 export const WhitehatContext = createContext<WhitehatContext>({
   program: null,
-  programs: null,
-  setPrograms: () => null,
+  protocol: null,
+  setProtocol: () => null,
   vulnerability: null,
   setVulnerability: () => null,
   pendingVulnerability: 0,
@@ -52,7 +49,7 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
     () => new Program(IDL, PROGRAM_ID as Address, connection),
     [connection]
   )
-  const [programs, setPrograms] = useState<PROTOCOL_PDA[] | null>(null)
+  const [protocol, setProtocol] = useState<PROTOCOL_PDA | null>(null)
   const [vulnerability, setVulnerability] = useState<
     VULNERABILITY_PDA[] | null
   >(null)
@@ -66,8 +63,8 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
 
   const value = {
     program,
-    programs,
-    setPrograms,
+    protocol,
+    setProtocol,
     vulnerability,
     setVulnerability,
     pendingVulnerability,
@@ -78,19 +75,16 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    if (publicKey && !programs) {
-      const fetchPrograms = async () => {
+    if (publicKey && !protocol) {
+      const pda = PublicKey.findProgramAddressSync(
+        [Buffer.from('protocol'), publicKey.toBytes()],
+        program.programId
+      )[0]
+      const fetchProtocol = async () => {
         // @ts-ignore
-        return await program.account.protocol.all([
-          {
-            memcmp: {
-              offset: 8,
-              bytes: publicKey.toBase58(),
-            },
-          },
-        ])
+        return await program.account.protocol.fetch(pda)
       }
-      fetchPrograms()
+      fetchProtocol()
         .then((response) => {
           console.log(response)
           // @ts-ignore
@@ -99,7 +93,7 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
             account.pubkey = publicKey
             return result
           })
-          setPrograms(programsMap)
+          setProtocol(programsMap)
         })
         .catch((error) => {
           console.log(error)
@@ -108,14 +102,14 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
   }, [publicKey])
 
   useEffect(() => {
-    if (publicKey && programs) {
+    if (publicKey && protocol) {
       const fetchVulnerabilities = async () => {
         // @ts-ignore
         return await program.account.vulnerability.all([
           {
             memcmp: {
               offset: 8,
-              bytes: programs[0].pubkey.toBase58(),
+              bytes: protocol.pubkey.toBase58(),
             },
           },
         ])
@@ -133,7 +127,7 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
         })
         .catch((error) => console.log(error))
     }
-  }, [publicKey, programs])
+  }, [publicKey, protocol])
 
   useEffect(() => {
     if (vulnerability && vulnerability.length > 0) {
@@ -150,14 +144,14 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
   }, [vulnerability])
 
   useEffect(() => {
-    if (publicKey && programs) {
+    if (publicKey && protocol) {
       const fetchHacks = async () => {
         // @ts-ignore
         return await program.account.solHack.all([
           {
             memcmp: {
               offset: 8,
-              bytes: programs[0].pubkey.toBase58(),
+              bytes: protocol.pubkey.toBase58(),
             },
           },
         ])
@@ -175,7 +169,7 @@ export const WhitehatProvider = ({ children }: { children: ReactNode }) => {
         })
         .catch((error) => console.log(error))
     }
-  }, [publicKey])
+  }, [publicKey, protocol])
 
   useEffect(() => {
     if (solHacks && solHacks.length > 0) {

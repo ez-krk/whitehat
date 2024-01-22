@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "typescript client to interact with our solana programs.",
   "main": "dist/index.js",
-  "bin": {
-    "ts-client": "./bin/ts-client"
-  },
+  "bin": "./bin/ts-client",
   "preferGlobal": true,
   "license": "MIT",
   "devDependencies": {
